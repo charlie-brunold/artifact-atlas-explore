@@ -31,6 +31,15 @@ interface ArtifactDetailProps {
 }
 
 const ArtifactDetail = ({ artifact, onBack }: ArtifactDetailProps) => {
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    const target = e.currentTarget;
+    const fallback = target.nextElementSibling as HTMLElement;
+    target.style.display = 'none';
+    if (fallback) {
+      fallback.style.display = 'flex';
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -39,7 +48,7 @@ const ArtifactDetail = ({ artifact, onBack }: ArtifactDetailProps) => {
           <div className="flex items-center gap-4">
             <Button variant="outline" onClick={onBack} className="flex items-center gap-2">
               <ArrowLeft className="h-4 w-4" />
-              Back to Catalogue
+              Volver al Catálogo
             </Button>
             <div>
               <h1 className="text-3xl font-bold text-foreground">{artifact.title}</h1>
@@ -60,13 +69,10 @@ const ArtifactDetail = ({ artifact, onBack }: ArtifactDetailProps) => {
                     src={artifact.imageUrl} 
                     alt={artifact.title}
                     className="w-full h-full object-cover rounded-lg"
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none';
-                      e.currentTarget.nextElementSibling.style.display = 'flex';
-                    }}
+                    onError={handleImageError}
                   />
                   <div className="hidden w-full h-full items-center justify-center text-lg">
-                    High-Resolution Image Available Upon Request
+                    Imagen de Alta Resolución Disponible Bajo Solicitud
                   </div>
                 </div>
               </CardContent>
@@ -77,7 +83,7 @@ const ArtifactDetail = ({ artifact, onBack }: ArtifactDetailProps) => {
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
                   <FileText className="h-5 w-5" />
-                  Quick Facts
+                  Datos Principales
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
@@ -87,12 +93,12 @@ const ArtifactDetail = ({ artifact, onBack }: ArtifactDetailProps) => {
                 <div className="grid grid-cols-1 gap-3 text-sm">
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4 text-muted-foreground" />
-                    <span className="font-medium">Period:</span>
+                    <span className="font-medium">Período:</span>
                     <span>{artifact.period}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <MapPin className="h-4 w-4 text-muted-foreground" />
-                    <span className="font-medium">Culture:</span>
+                    <span className="font-medium">Cultura:</span>
                     <span>{artifact.culture}</span>
                   </div>
                   <div className="flex items-center gap-2">
@@ -102,12 +108,12 @@ const ArtifactDetail = ({ artifact, onBack }: ArtifactDetailProps) => {
                   </div>
                   <div className="flex items-center gap-2">
                     <Ruler className="h-4 w-4 text-muted-foreground" />
-                    <span className="font-medium">Dimensions:</span>
+                    <span className="font-medium">Dimensiones:</span>
                     <span>{artifact.dimensions}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Award className="h-4 w-4 text-muted-foreground" />
-                    <span className="font-medium">Condition:</span>
+                    <span className="font-medium">Estado:</span>
                     <span>{artifact.condition}</span>
                   </div>
                 </div>
@@ -120,7 +126,7 @@ const ArtifactDetail = ({ artifact, onBack }: ArtifactDetailProps) => {
             {/* Description */}
             <Card>
               <CardHeader>
-                <CardTitle>Description</CardTitle>
+                <CardTitle>Descripción</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground leading-relaxed">{artifact.description}</p>
@@ -130,7 +136,7 @@ const ArtifactDetail = ({ artifact, onBack }: ArtifactDetailProps) => {
             {/* Cultural Significance */}
             <Card>
               <CardHeader>
-                <CardTitle>Cultural Significance</CardTitle>
+                <CardTitle>Significado Cultural</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground leading-relaxed">{artifact.significance}</p>
@@ -140,15 +146,15 @@ const ArtifactDetail = ({ artifact, onBack }: ArtifactDetailProps) => {
             {/* Provenance */}
             <Card>
               <CardHeader>
-                <CardTitle>Provenance</CardTitle>
-                <CardDescription>Acquisition History and Documentation</CardDescription>
+                <CardTitle>Procedencia</CardTitle>
+                <CardDescription>Historia de Adquisición y Documentación</CardDescription>
               </CardHeader>
               <CardContent className="space-y-3">
                 <p className="text-muted-foreground leading-relaxed">{artifact.provenance}</p>
                 <Separator />
                 <div className="text-sm">
-                  <p><span className="font-medium">Date Acquired:</span> {new Date(artifact.dateAcquired).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                  <p><span className="font-medium">Original Location:</span> {artifact.location}</p>
+                  <p><span className="font-medium">Fecha de Adquisición:</span> {new Date(artifact.dateAcquired).toLocaleDateString('es-PE', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                  <p><span className="font-medium">Ubicación Original:</span> {artifact.location}</p>
                 </div>
               </CardContent>
             </Card>
@@ -158,7 +164,7 @@ const ArtifactDetail = ({ artifact, onBack }: ArtifactDetailProps) => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Award className="h-5 w-5" />
-                  Exhibition History
+                  Historial de Exposiciones
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -178,7 +184,7 @@ const ArtifactDetail = ({ artifact, onBack }: ArtifactDetailProps) => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <BookOpen className="h-5 w-5" />
-                  Selected Bibliography
+                  Bibliografía Seleccionada
                 </CardTitle>
               </CardHeader>
               <CardContent>

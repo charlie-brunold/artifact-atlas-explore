@@ -25,6 +25,15 @@ interface ArtifactCardProps {
 }
 
 const ArtifactCard = ({ artifact, viewMode, onClick }: ArtifactCardProps) => {
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    const target = e.currentTarget;
+    const fallback = target.nextElementSibling as HTMLElement;
+    target.style.display = 'none';
+    if (fallback) {
+      fallback.style.display = 'flex';
+    }
+  };
+
   if (viewMode === 'list') {
     return (
       <Card className="cursor-pointer hover:shadow-lg transition-all duration-200 hover:border-primary/50" onClick={onClick}>
@@ -34,10 +43,7 @@ const ArtifactCard = ({ artifact, viewMode, onClick }: ArtifactCardProps) => {
               src={artifact.imageUrl} 
               alt={artifact.title}
               className="w-full h-full object-cover"
-              onError={(e) => {
-                e.currentTarget.style.display = 'none';
-                e.currentTarget.nextElementSibling.style.display = 'flex';
-              }}
+              onError={handleImageError}
             />
             <div className="hidden w-full h-full items-center justify-center text-sm">
               Image Not Available
@@ -83,10 +89,7 @@ const ArtifactCard = ({ artifact, viewMode, onClick }: ArtifactCardProps) => {
           src={artifact.imageUrl} 
           alt={artifact.title}
           className="w-full h-full object-cover"
-          onError={(e) => {
-            e.currentTarget.style.display = 'none';
-            e.currentTarget.nextElementSibling.style.display = 'flex';
-          }}
+          onError={handleImageError}
         />
         <div className="hidden w-full h-full items-center justify-center text-sm">
           Image Not Available
