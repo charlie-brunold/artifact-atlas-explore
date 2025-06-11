@@ -1,7 +1,7 @@
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Calendar, MapPin, Palette } from 'lucide-react';
+import RentalButton from './RentalButton';
 
 interface Artifact {
   id: number;
@@ -75,6 +75,9 @@ const ArtifactCard = ({ artifact, viewMode, onClick }: ArtifactCardProps) => {
                   </div>
                 </div>
               </div>
+              <div className="flex flex-col gap-2">
+                <RentalButton artifact={artifact} size="sm" />
+              </div>
             </div>
           </div>
         </div>
@@ -120,6 +123,9 @@ const ArtifactCard = ({ artifact, viewMode, onClick }: ArtifactCardProps) => {
             <MapPin className="h-3 w-3" />
             <span>{artifact.location}</span>
           </div>
+        </div>
+        <div className="mt-4">
+          <RentalButton artifact={artifact} size="sm" />
         </div>
       </CardContent>
     </Card>

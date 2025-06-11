@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Search, Filter, Grid, List } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -7,6 +6,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Badge } from '@/components/ui/badge';
 import ArtifactCard from '@/components/ArtifactCard';
 import ArtifactDetail from '@/components/ArtifactDetail';
+import CartSummary from '@/components/CartSummary';
+import CartPage from '@/components/CartPage';
 
 // Authentic Museo AMANO textile collection data
 const artifacts = [
@@ -141,6 +142,7 @@ const Index = () => {
   const [selectedCategory, setSelectedCategory] = useState('Todas las Categorías');
   const [selectedArtifact, setSelectedArtifact] = useState<typeof artifacts[0] | null>(null);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [showCart, setShowCart] = useState(false);
 
   const filteredArtifacts = artifacts.filter(artifact => {
     const matchesSearch = artifact.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -149,6 +151,10 @@ const Index = () => {
     const matchesCategory = selectedCategory === 'Todas las Categorías' || artifact.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
+
+  if (showCart) {
+    return <CartPage onBack={() => setShowCart(false)} />;
+  }
 
   if (selectedArtifact) {
     return <ArtifactDetail artifact={selectedArtifact} onBack={() => setSelectedArtifact(null)} />;
@@ -245,6 +251,9 @@ const Index = () => {
           </div>
         )}
       </main>
+
+      {/* Cart Summary */}
+      <CartSummary onViewCart={() => setShowCart(true)} />
     </div>
   );
 };

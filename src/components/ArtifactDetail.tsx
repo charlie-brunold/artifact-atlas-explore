@@ -1,9 +1,9 @@
-
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { ArrowLeft, Calendar, MapPin, Palette, Ruler, FileText, Award, BookOpen } from 'lucide-react';
+import RentalButton from './RentalButton';
 
 interface Artifact {
   id: number;
@@ -50,9 +50,12 @@ const ArtifactDetail = ({ artifact, onBack }: ArtifactDetailProps) => {
               <ArrowLeft className="h-4 w-4" />
               Volver al Catálogo
             </Button>
-            <div>
+            <div className="flex-1">
               <h1 className="text-3xl font-bold text-foreground">{artifact.title}</h1>
               <p className="text-muted-foreground">{artifact.accessionNumber}</p>
+            </div>
+            <div>
+              <RentalButton artifact={artifact} />
             </div>
           </div>
         </div>
