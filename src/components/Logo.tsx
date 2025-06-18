@@ -1,7 +1,10 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 const Logo = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="flex items-center gap-3">
       <div className="relative">
@@ -16,8 +19,8 @@ const Logo = () => {
         </div>
       </div>
       <div>
-        <h1 className="text-2xl font-bold text-foreground tracking-tight">Artifact Atlas</h1>
-        <p className="text-sm text-muted-foreground">Museo AMANO Digital Research</p>
+        <h1 className="text-2xl font-bold text-foreground tracking-tight">{t('header.title')}</h1>
+        <p className="text-sm text-muted-foreground">{t('header.subtitle')}</p>
       </div>
     </div>
   );
