@@ -78,15 +78,6 @@
   letter-spacing: 0.02em;
 }
 
-/* Ensure proper spacing for CJK characters */
-:lang(ja) .text-sm {
-  @apply text-sm leading-relaxed;
-}
-
-:lang(ja) .text-lg {
-  @apply text-lg leading-relaxed;
-}
-
 /* Optimize button and form element text for Japanese */
 :lang(ja) button,
 :lang(ja) input,
