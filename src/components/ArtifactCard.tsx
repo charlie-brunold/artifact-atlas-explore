@@ -2,6 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Calendar, MapPin, Palette } from 'lucide-react';
 import RentalButton from './RentalButton';
+import BookmarkButton from './BookmarkButton';
 
 interface Artifact {
   id: number;
@@ -76,6 +77,12 @@ const ArtifactCard = ({ artifact, viewMode, onClick }: ArtifactCardProps) => {
                 </div>
               </div>
               <div className="flex flex-col gap-2">
+                <BookmarkButton 
+                  artifactId={artifact.id} 
+                  artifactTitle={artifact.title} 
+                  size="sm" 
+                  variant="ghost"
+                />
                 <RentalButton artifact={artifact} size="sm" />
               </div>
             </div>
@@ -86,7 +93,7 @@ const ArtifactCard = ({ artifact, viewMode, onClick }: ArtifactCardProps) => {
   }
 
   return (
-    <Card className="cursor-pointer hover:shadow-lg transition-all duration-200 hover:border-primary/50 overflow-hidden" onClick={onClick}>
+    <Card className="cursor-pointer hover:shadow-lg transition-all duration-200 hover:border-primary/50 overflow-hidden group" onClick={onClick}>
       <div className="aspect-square bg-muted flex items-center justify-center text-muted-foreground">
         <img 
           src={artifact.imageUrl} 
@@ -103,7 +110,15 @@ const ArtifactCard = ({ artifact, viewMode, onClick }: ArtifactCardProps) => {
           <Badge variant="secondary" className="text-xs">
             {artifact.category}
           </Badge>
-          <span className="text-xs text-muted-foreground">{artifact.accessionNumber}</span>
+          <div className="flex items-center gap-1">
+            <BookmarkButton 
+              artifactId={artifact.id} 
+              artifactTitle={artifact.title} 
+              size="sm" 
+              variant="ghost"
+            />
+            <span className="text-xs text-muted-foreground">{artifact.accessionNumber}</span>
+          </div>
         </div>
         <CardTitle className="text-lg leading-tight">{artifact.title}</CardTitle>
         <CardDescription className="text-sm">
@@ -124,7 +139,7 @@ const ArtifactCard = ({ artifact, viewMode, onClick }: ArtifactCardProps) => {
             <span>{artifact.location}</span>
           </div>
         </div>
-        <div className="mt-4">
+        <div className="mt-4 flex gap-2">
           <RentalButton artifact={artifact} size="sm" />
         </div>
       </CardContent>

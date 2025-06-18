@@ -4,6 +4,8 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { ArrowLeft, Calendar, MapPin, Palette, Ruler, FileText, Award, BookOpen } from 'lucide-react';
 import RentalButton from './RentalButton';
+import BookmarkButton from './BookmarkButton';
+import Breadcrumbs from './Breadcrumbs';
 
 interface Artifact {
   id: number;
@@ -40,21 +42,27 @@ const ArtifactDetail = ({ artifact, onBack }: ArtifactDetailProps) => {
     }
   };
 
+  const breadcrumbItems = [
+    { label: 'Catálogo', onClick: onBack },
+    { label: artifact.title, active: true }
+  ];
+
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
+      {/* Enhanced Header */}
       <header className="border-b bg-card shadow-sm">
         <div className="container mx-auto px-6 py-6">
+          <Breadcrumbs items={breadcrumbItems} />
           <div className="flex items-center gap-4">
-            <Button variant="outline" onClick={onBack} className="flex items-center gap-2">
-              <ArrowLeft className="h-4 w-4" />
-              Volver al Catálogo
-            </Button>
             <div className="flex-1">
               <h1 className="text-3xl font-bold text-foreground">{artifact.title}</h1>
               <p className="text-muted-foreground">{artifact.accessionNumber}</p>
             </div>
-            <div>
+            <div className="flex items-center gap-2">
+              <BookmarkButton 
+                artifactId={artifact.id} 
+                artifactTitle={artifact.title}
+              />
               <RentalButton artifact={artifact} />
             </div>
           </div>

@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Search, Filter, Grid, List } from 'lucide-react';
+import { useState, useMemo } from 'react';
+import { Search, Filter, Grid, List, ArrowUpDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -8,6 +8,9 @@ import ArtifactCard from '@/components/ArtifactCard';
 import ArtifactDetail from '@/components/ArtifactDetail';
 import CartSummary from '@/components/CartSummary';
 import CartPage from '@/components/CartPage';
+import Logo from '@/components/Logo';
+import AdvancedFilters from '@/components/AdvancedFilters';
+import { useToast } from '@/hooks/use-toast';
 
 // Authentic Museo AMANO textile collection data
 const artifacts = [
@@ -143,14 +146,96 @@ const Index = () => {
   const [selectedArtifact, setSelectedArtifact] = useState<typeof artifacts[0] | null>(null);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showCart, setShowCart] = useState(false);
+  const [sortBy, setSortBy] = useState('relevance');
+  const [advancedFilters, setAdvancedFilters] = useState<any>({});
+  const { toast } = useToast();
 
-  const filteredArtifacts = artifacts.filter(artifact => {
-    const matchesSearch = artifact.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         artifact.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         artifact.culture.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === 'Todas las Categorías' || artifact.category === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
+  const filteredAndSortedArtifacts = useMemo(() => {
+    let filtered = artifacts.filter(artifact => {
+      const matchesSearch = artifact.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           artifact.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           artifact.culture.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesCategory = selectedCategory === 'Todas las Categorías' || artifact.category === selectedCategory;
+      
+      // Advanced filters
+      let matchesAdvanced = true;
+      
+      if (advancedFilters.cultures?.length > 0) {
+        const cultureMatch = advancedFilters.cultures.some((culture: string) => 
+          artifact.culture.includes(culture)
+        );
+        if (advancedFilters.tagLogic === 'AND') {
+          matchesAdvanced = matchesAdvanced && cultureMatch;
+        } else {
+          matchesAdvanced = matchesAdvanced || cultureMatch;
+        }
+      }
+      
+      if (advancedFilters.materials?.length > 0) {
+        const materialMatch = advancedFilters.materials.some((material: string) => 
+          artifact.material.includes(material)
+        );
+        if (advancedFilters.tagLogic === 'AND') {
+          matchesAdvanced = matchesAdvanced && materialMatch;
+        } else {
+          matchesAdvanced = matchesAdvanced || materialMatch;
+        }
+      }
+      
+      if (advancedFilters.conditions?.length > 0) {
+        const conditionMatch = advancedFilters.conditions.some((condition: string) => 
+          artifact.condition.includes(condition)
+        );
+        if (advancedFilters.tagLogic === 'AND') {
+          matchesAdvanced = matchesAdvanced && conditionMatch;
+        } else {
+          matchesAdvanced = matchesAdvanced || conditionMatch;
+        }
+      }
+      
+      return matchesSearch && matchesCategory && matchesAdvanced;
+    });
+
+    // Sorting
+    switch (sortBy) {
+      case 'name-asc':
+        filtered.sort((a, b) => a.title.localeCompare(b.title));
+        break;
+      case 'name-desc':
+        filtered.sort((a, b) => b.title.localeCompare(a.title));
+        break;
+      case 'date-newest':
+        filtered.sort((a, b) => new Date(b.dateAcquired).getTime() - new Date(a.dateAcquired).getTime());
+        break;
+      case 'date-oldest':
+        filtered.sort((a, b) => new Date(a.dateAcquired).getTime() - new Date(b.dateAcquired).getTime());
+        break;
+      default:
+        // Keep original order for relevance
+        break;
+    }
+
+    return filtered;
+  }, [searchTerm, selectedCategory, advancedFilters, sortBy]);
+
+  const handleSaveSearch = (searchName: string, filters: any) => {
+    const savedSearches = JSON.parse(localStorage.getItem('saved-searches') || '[]');
+    const newSearch = {
+      id: Date.now(),
+      name: searchName,
+      searchTerm,
+      category: selectedCategory,
+      filters,
+      timestamp: new Date().toISOString()
+    };
+    savedSearches.push(newSearch);
+    localStorage.setItem('saved-searches', JSON.stringify(savedSearches));
+    
+    toast({
+      title: "Búsqueda guardada",
+      description: `La búsqueda "${searchName}" ha sido guardada exitosamente.`,
+    });
+  };
 
   if (showCart) {
     return <CartPage onBack={() => setShowCart(false)} />;
@@ -162,33 +247,32 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
+      {/* Enhanced Header */}
       <header className="border-b bg-card shadow-sm">
-        <div className="container mx-auto px-6 py-8">
+        <div className="container mx-auto px-6 py-6">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div>
-              <h1 className="text-4xl font-bold text-foreground mb-2">AMANO</h1>
-              <p className="text-2xl text-muted-foreground mb-1">Museo Textil Precolombino</p>
-              <p className="text-lg text-muted-foreground">Catálogo Digital de Investigación</p>
-            </div>
-            <div className="flex items-center gap-2">
+            <Logo />
+            <div className="flex items-center gap-4">
               <Badge variant="outline" className="text-sm">
-                {filteredArtifacts.length} piezas
+                {filteredAndSortedArtifacts.length} piezas encontradas
               </Badge>
+              <Button variant="outline" className="text-teal-600 border-teal-600 hover:bg-teal-50">
+                Mi Colección
+              </Button>
             </div>
           </div>
         </div>
       </header>
 
-      {/* Search and Filter Section */}
-      <section className="bg-muted/30 border-b">
-        <div className="container mx-auto px-6 py-6">
-          <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
-            <div className="flex flex-col sm:flex-row gap-4 flex-1 max-w-2xl">
+      {/* Enhanced Search and Filter Section */}
+      <section className="bg-muted/20 border-b">
+        <div className="container mx-auto px-6 py-6 space-y-4">
+          <div className="flex flex-col lg:flex-row gap-4 items-start justify-between">
+            <div className="flex flex-col sm:flex-row gap-4 flex-1 max-w-4xl">
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
                 <Input
-                  placeholder="Buscar textiles, culturas, técnicas..."
+                  placeholder="Buscar textiles, culturas, técnicas, materiales..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="pl-10 bg-background"
@@ -205,6 +289,19 @@ const Index = () => {
                       {category}
                     </SelectItem>
                   ))}
+                </SelectContent>
+              </Select>
+              <Select value={sortBy} onValueChange={setSortBy}>
+                <SelectTrigger className="w-full sm:w-[200px] bg-background">
+                  <ArrowUpDown className="h-4 w-4 mr-2" />
+                  <SelectValue placeholder="Ordenar por" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="relevance">Relevancia</SelectItem>
+                  <SelectItem value="name-asc">Nombre (A-Z)</SelectItem>
+                  <SelectItem value="name-desc">Nombre (Z-A)</SelectItem>
+                  <SelectItem value="date-newest">Más Reciente</SelectItem>
+                  <SelectItem value="date-oldest">Más Antiguo</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -225,22 +322,27 @@ const Index = () => {
               </Button>
             </div>
           </div>
+          
+          <AdvancedFilters 
+            onFiltersChange={setAdvancedFilters}
+            onSaveSearch={handleSaveSearch}
+          />
         </div>
       </section>
 
       {/* Artifacts Grid */}
       <main className="container mx-auto px-6 py-8">
-        {filteredArtifacts.length === 0 ? (
+        {filteredAndSortedArtifacts.length === 0 ? (
           <div className="text-center py-12">
             <p className="text-lg text-muted-foreground">No se encontraron piezas que coincidan con sus criterios.</p>
-            <p className="text-sm text-muted-foreground mt-2">Intente ajustar sus términos de búsqueda o filtro de categoría.</p>
+            <p className="text-sm text-muted-foreground mt-2">Intente ajustar sus términos de búsqueda o filtros.</p>
           </div>
         ) : (
           <div className={viewMode === 'grid' 
             ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" 
             : "space-y-4"
           }>
-            {filteredArtifacts.map(artifact => (
+            {filteredAndSortedArtifacts.map(artifact => (
               <ArtifactCard
                 key={artifact.id}
                 artifact={artifact}
