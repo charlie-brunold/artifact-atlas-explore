@@ -1,16 +1,14 @@
-import { useState, useMemo } from 'react';
-import { Search, Filter, Grid, List, ArrowUpDown } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { useState, useEffect, useMemo } from 'react';
 import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
+import { Search, Grid, List, SlidersHorizontal, User } from 'lucide-react';
 import ArtifactCard from '@/components/ArtifactCard';
 import ArtifactDetail from '@/components/ArtifactDetail';
-import CartSummary from '@/components/CartSummary';
-import CartPage from '@/components/CartPage';
-import Logo from '@/components/Logo';
 import AdvancedFilters from '@/components/AdvancedFilters';
-import { useToast } from '@/hooks/use-toast';
+import Logo from '@/components/Logo';
+import CartSummary from '@/components/CartSummary';
 
 // Authentic Museo AMANO textile collection data
 const artifacts = [
@@ -237,12 +235,36 @@ const Index = () => {
     });
   };
 
+  const handleArtifactClick = (artifact: Artifact) => {
+    console.log('Artifact clicked:', artifact.title);
+    
+    // Add to recently viewed
+    const recentlyViewed = JSON.parse(localStorage.getItem('recently-viewed') || '[]');
+    const newEntry = {
+      artifactId: artifact.id,
+      viewedAt: new Date().toISOString()
+    };
+    
+    // Remove if already exists and add to front
+    const filtered = recentlyViewed.filter((item: any) => item.artifactId !== artifact.id);
+    const updated = [newEntry, ...filtered].slice(0, 50); // Keep last 50
+    
+    localStorage.setItem('recently-viewed', JSON.stringify(updated));
+    
+    setSelectedArtifact(artifact);
+  };
+
   if (showCart) {
     return <CartPage onBack={() => setShowCart(false)} />;
   }
 
   if (selectedArtifact) {
-    return <ArtifactDetail artifact={selectedArtifact} onBack={() => setSelectedArtifact(null)} />;
+    return (
+      <ArtifactDetail
+        artifact={selectedArtifact}
+        onBack={() => setSelectedArtifact(null)}
+      />
+    );
   }
 
   return (
@@ -250,15 +272,18 @@ const Index = () => {
       {/* Enhanced Header */}
       <header className="border-b bg-card shadow-sm">
         <div className="container mx-auto px-6 py-6">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div className="flex items-center justify-between mb-6">
             <Logo />
             <div className="flex items-center gap-4">
-              <Badge variant="outline" className="text-sm">
-                {filteredAndSortedArtifacts.length} piezas encontradas
-              </Badge>
-              <Button variant="outline" className="text-teal-600 border-teal-600 hover:bg-teal-50">
+              <Button 
+                variant="outline" 
+                onClick={() => window.location.href = '/my-collection'}
+                className="flex items-center gap-2"
+              >
+                <User className="h-4 w-4" />
                 Mi Colección
               </Button>
+              <CartSummary />
             </div>
           </div>
         </div>
@@ -347,7 +372,7 @@ const Index = () => {
                 key={artifact.id}
                 artifact={artifact}
                 viewMode={viewMode}
-                onClick={() => setSelectedArtifact(artifact)}
+                onClick={() => handleArtifactClick(artifact)}
               />
             ))}
           </div>
