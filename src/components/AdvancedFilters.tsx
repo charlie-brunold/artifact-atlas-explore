@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -42,9 +43,9 @@ const AdvancedFilters = ({
   const { toast } = useToast();
 
   const availableOptions = {
-    cultures: ['Moche', 'Nazca', 'Chimú', 'Inca', 'Huari', 'Tiahuanaco'],
-    materials: ['Cerámica', 'Textil', 'Metal', 'Madera', 'Piedra'],
-    conditions: ['Excelente', 'Bueno', 'Regular', 'Malo'],
+    cultures: ['Paracas', 'Nazca', 'Chimú', 'Inca', 'Huari', 'Chancay'],
+    materials: ['Fibra de camélido', 'Algodón', 'Lana de alpaca', 'Plumas', 'Tintes naturales'],
+    conditions: ['Excelente', 'Muy bueno', 'Bueno', 'Regular'],
   };
 
   const handleCheckboxChange = (type: string, value: string, checked: boolean) => {

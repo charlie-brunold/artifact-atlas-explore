@@ -3,7 +3,8 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
-import { Search, Grid, List, SlidersHorizontal, User } from 'lucide-react';
+import { Search, Grid, List, SlidersHorizontal, User, Filter, ArrowUpDown } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 import ArtifactCard from '@/components/ArtifactCard';
 import ArtifactDetail from '@/components/ArtifactDetail';
 import AdvancedFilters from '@/components/AdvancedFilters';
@@ -11,7 +12,7 @@ import Logo from '@/components/Logo';
 import CartSummary from '@/components/CartSummary';
 
 // Authentic Museo AMANO textile collection data
-const artifacts = [
+export const mockArtifacts = [
   {
     id: 1,
     title: "Manto Paracas con Iconografía de Felinos",
@@ -138,10 +139,12 @@ const categories = [
   "Tocados y Ornamentos"
 ];
 
+type Artifact = typeof mockArtifacts[0];
+
 const Index = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Todas las Categorías');
-  const [selectedArtifact, setSelectedArtifact] = useState<typeof artifacts[0] | null>(null);
+  const [selectedArtifact, setSelectedArtifact] = useState<Artifact | null>(null);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showCart, setShowCart] = useState(false);
   const [sortBy, setSortBy] = useState('relevance');
@@ -149,7 +152,7 @@ const Index = () => {
   const { toast } = useToast();
 
   const filteredAndSortedArtifacts = useMemo(() => {
-    let filtered = artifacts.filter(artifact => {
+    let filtered = mockArtifacts.filter(artifact => {
       const matchesSearch = artifact.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            artifact.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            artifact.culture.toLowerCase().includes(searchTerm.toLowerCase());
@@ -349,8 +352,13 @@ const Index = () => {
           </div>
           
           <AdvancedFilters 
+            cultures={advancedFilters.cultures || []}
+            materials={advancedFilters.materials || []}
+            conditions={advancedFilters.conditions || []}
+            periodRange={advancedFilters.periodRange || [0, 2000]}
+            tagLogic={advancedFilters.tagLogic || 'OR'}
+            searchQuery={searchTerm}
             onFiltersChange={setAdvancedFilters}
-            onSaveSearch={handleSaveSearch}
           />
         </div>
       </section>
