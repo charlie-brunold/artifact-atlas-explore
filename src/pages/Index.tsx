@@ -1,18 +1,19 @@
-import { useState, useEffect, useMemo } from 'react';
-import { Input } from '@/components/ui/input';
+import { useState, useMemo } from 'react';
+import { Search, Filter, Grid, List, ArrowUpDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
-import { Search, Grid, List, SlidersHorizontal, User, Filter, ArrowUpDown } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
 import ArtifactCard from '@/components/ArtifactCard';
 import ArtifactDetail from '@/components/ArtifactDetail';
-import AdvancedFilters from '@/components/AdvancedFilters';
-import Logo from '@/components/Logo';
 import CartSummary from '@/components/CartSummary';
+import CartPage from '@/components/CartPage';
+import Logo from '@/components/Logo';
+import AdvancedFilters from '@/components/AdvancedFilters';
+import { useToast } from '@/hooks/use-toast';
 
 // Authentic Museo AMANO textile collection data
-export const mockArtifacts = [
+const artifacts = [
   {
     id: 1,
     title: "Manto Paracas con Iconografía de Felinos",
@@ -139,12 +140,10 @@ const categories = [
   "Tocados y Ornamentos"
 ];
 
-type Artifact = typeof mockArtifacts[0];
-
 const Index = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Todas las Categorías');
-  const [selectedArtifact, setSelectedArtifact] = useState<Artifact | null>(null);
+  const [selectedArtifact, setSelectedArtifact] = useState<typeof artifacts[0] | null>(null);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showCart, setShowCart] = useState(false);
   const [sortBy, setSortBy] = useState('relevance');
@@ -152,7 +151,7 @@ const Index = () => {
   const { toast } = useToast();
 
   const filteredAndSortedArtifacts = useMemo(() => {
-    let filtered = mockArtifacts.filter(artifact => {
+    let filtered = artifacts.filter(artifact => {
       const matchesSearch = artifact.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            artifact.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            artifact.culture.toLowerCase().includes(searchTerm.toLowerCase());
@@ -238,36 +237,12 @@ const Index = () => {
     });
   };
 
-  const handleArtifactClick = (artifact: Artifact) => {
-    console.log('Artifact clicked:', artifact.title);
-    
-    // Add to recently viewed
-    const recentlyViewed = JSON.parse(localStorage.getItem('recently-viewed') || '[]');
-    const newEntry = {
-      artifactId: artifact.id,
-      viewedAt: new Date().toISOString()
-    };
-    
-    // Remove if already exists and add to front
-    const filtered = recentlyViewed.filter((item: any) => item.artifactId !== artifact.id);
-    const updated = [newEntry, ...filtered].slice(0, 50); // Keep last 50
-    
-    localStorage.setItem('recently-viewed', JSON.stringify(updated));
-    
-    setSelectedArtifact(artifact);
-  };
-
   if (showCart) {
     return <CartPage onBack={() => setShowCart(false)} />;
   }
 
   if (selectedArtifact) {
-    return (
-      <ArtifactDetail
-        artifact={selectedArtifact}
-        onBack={() => setSelectedArtifact(null)}
-      />
-    );
+    return <ArtifactDetail artifact={selectedArtifact} onBack={() => setSelectedArtifact(null)} />;
   }
 
   return (
@@ -275,18 +250,15 @@ const Index = () => {
       {/* Enhanced Header */}
       <header className="border-b bg-card shadow-sm">
         <div className="container mx-auto px-6 py-6">
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <Logo />
             <div className="flex items-center gap-4">
-              <Button 
-                variant="outline" 
-                onClick={() => window.location.href = '/my-collection'}
-                className="flex items-center gap-2"
-              >
-                <User className="h-4 w-4" />
+              <Badge variant="outline" className="text-sm">
+                {filteredAndSortedArtifacts.length} piezas encontradas
+              </Badge>
+              <Button variant="outline" className="text-teal-600 border-teal-600 hover:bg-teal-50">
                 Mi Colección
               </Button>
-              <CartSummary />
             </div>
           </div>
         </div>
@@ -352,13 +324,8 @@ const Index = () => {
           </div>
           
           <AdvancedFilters 
-            cultures={advancedFilters.cultures || []}
-            materials={advancedFilters.materials || []}
-            conditions={advancedFilters.conditions || []}
-            periodRange={advancedFilters.periodRange || [0, 2000]}
-            tagLogic={advancedFilters.tagLogic || 'OR'}
-            searchQuery={searchTerm}
             onFiltersChange={setAdvancedFilters}
+            onSaveSearch={handleSaveSearch}
           />
         </div>
       </section>
@@ -380,7 +347,7 @@ const Index = () => {
                 key={artifact.id}
                 artifact={artifact}
                 viewMode={viewMode}
-                onClick={() => handleArtifactClick(artifact)}
+                onClick={() => setSelectedArtifact(artifact)}
               />
             ))}
           </div>

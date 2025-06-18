@@ -1,332 +1,231 @@
 
 import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Label } from '@/components/ui/label';
-import { Slider } from '@/components/ui/slider';
 import { Input } from '@/components/ui/input';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { ChevronDown, ChevronUp, X, Save } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Badge } from '@/components/ui/badge';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { ChevronDown, X, Save } from 'lucide-react';
 
 interface AdvancedFiltersProps {
-  cultures: string[];
-  materials: string[];
-  conditions: string[];
-  periodRange: [number, number];
-  tagLogic: 'OR' | 'AND';
-  searchQuery: string;
-  onFiltersChange: (filters: {
-    cultures: string[];
-    materials: string[];
-    conditions: string[];
-    periodRange: [number, number];
-    tagLogic: 'OR' | 'AND';
-  }) => void;
+  onFiltersChange: (filters: any) => void;
+  onSaveSearch: (searchName: string, filters: any) => void;
 }
 
-const AdvancedFilters = ({
-  cultures,
-  materials,
-  conditions,
-  periodRange,
-  tagLogic,
-  searchQuery,
-  onFiltersChange
-}: AdvancedFiltersProps) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [saveSearchName, setSaveSearchName] = useState('');
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const { toast } = useToast();
+const cultures = ['Paracas', 'Chancay', 'Inca', 'Huari', 'Nazca', 'Chimú'];
+const materials = ['Fibra de camélido', 'Algodón', 'Lana de alpaca', 'Plumas', 'Fibra de vicuña'];
+const conditions = ['Excelente', 'Muy bueno', 'Bueno'];
 
-  const availableOptions = {
-    cultures: ['Paracas', 'Nazca', 'Chimú', 'Inca', 'Huari', 'Chancay'],
-    materials: ['Fibra de camélido', 'Algodón', 'Lana de alpaca', 'Plumas', 'Tintes naturales'],
-    conditions: ['Excelente', 'Muy bueno', 'Bueno', 'Regular'],
+const AdvancedFilters = ({ onFiltersChange, onSaveSearch }: AdvancedFiltersProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedCultures, setSelectedCultures] = useState<string[]>([]);
+  const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
+  const [selectedConditions, setSelectedConditions] = useState<string[]>([]);
+  const [periodStart, setPeriodStart] = useState('');
+  const [periodEnd, setPeriodEnd] = useState('');
+  const [tagLogic, setTagLogic] = useState<'OR' | 'AND'>('OR');
+  const [searchName, setSearchName] = useState('');
+
+  const handleCultureToggle = (culture: string) => {
+    const updated = selectedCultures.includes(culture)
+      ? selectedCultures.filter(c => c !== culture)
+      : [...selectedCultures, culture];
+    setSelectedCultures(updated);
+    applyFilters({ cultures: updated });
   };
 
-  const handleCheckboxChange = (type: string, value: string, checked: boolean) => {
-    let updatedValues;
-    switch (type) {
-      case 'cultures':
-        updatedValues = checked
-          ? [...cultures, value]
-          : cultures.filter((item) => item !== value);
-        onFiltersChange({
-          cultures: updatedValues,
-          materials,
-          conditions,
-          periodRange,
-          tagLogic,
-        });
-        break;
-      case 'materials':
-        updatedValues = checked
-          ? [...materials, value]
-          : materials.filter((item) => item !== value);
-        onFiltersChange({
-          cultures,
-          materials: updatedValues,
-          conditions,
-          periodRange,
-          tagLogic,
-        });
-        break;
-      case 'conditions':
-        updatedValues = checked
-          ? [...conditions, value]
-          : conditions.filter((item) => item !== value);
-        onFiltersChange({
-          cultures,
-          materials,
-          conditions: updatedValues,
-          periodRange,
-          tagLogic,
-        });
-        break;
-      default:
-        break;
-    }
+  const handleMaterialToggle = (material: string) => {
+    const updated = selectedMaterials.includes(material)
+      ? selectedMaterials.filter(m => m !== material)
+      : [...selectedMaterials, material];
+    setSelectedMaterials(updated);
+    applyFilters({ materials: updated });
   };
 
-  const handlePeriodChange = (value: number[]) => {
-    onFiltersChange({
-      cultures,
-      materials,
-      conditions,
-      periodRange: [value[0], value[1]],
+  const handleConditionToggle = (condition: string) => {
+    const updated = selectedConditions.includes(condition)
+      ? selectedConditions.filter(c => c !== condition)
+      : [...selectedConditions, condition];
+    setSelectedConditions(updated);
+    applyFilters({ conditions: updated });
+  };
+
+  const applyFilters = (updates: any = {}) => {
+    const filters = {
+      cultures: selectedCultures,
+      materials: selectedMaterials,
+      conditions: selectedConditions,
+      periodStart,
+      periodEnd,
       tagLogic,
-    });
+      ...updates
+    };
+    onFiltersChange(filters);
   };
 
-  const handleTagLogicChange = (value: 'OR' | 'AND') => {
-    onFiltersChange({
-      cultures,
-      materials,
-      conditions,
-      periodRange,
-      tagLogic: value,
-    });
+  const clearFilters = () => {
+    setSelectedCultures([]);
+    setSelectedMaterials([]);
+    setSelectedConditions([]);
+    setPeriodStart('');
+    setPeriodEnd('');
+    setTagLogic('OR');
+    onFiltersChange({});
   };
 
   const handleSaveSearch = () => {
-    if (!saveSearchName.trim()) {
-      toast({
-        title: "Error",
-        description: "Por favor ingresa un nombre para la búsqueda",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    const savedSearches = JSON.parse(localStorage.getItem('saved-searches') || '[]');
-    const newSearch = {
-      id: Date.now().toString(),
-      name: saveSearchName.trim(),
-      query: searchQuery,
-      filters: {
-        cultures,
-        materials,
-        conditions,
-        periodRange: { start: periodRange[0], end: periodRange[1] },
+    if (searchName.trim()) {
+      const filters = {
+        cultures: selectedCultures,
+        materials: selectedMaterials,
+        conditions: selectedConditions,
+        periodStart,
+        periodEnd,
         tagLogic
-      },
-      createdAt: new Date().toISOString()
-    };
-
-    const updatedSearches = [newSearch, ...savedSearches];
-    localStorage.setItem('saved-searches', JSON.stringify(updatedSearches));
-
-    toast({
-      title: "Búsqueda guardada",
-      description: `"${saveSearchName}" ha sido guardada en tu colección`,
-    });
-
-    setSaveSearchName('');
-    setIsDialogOpen(false);
+      };
+      onSaveSearch(searchName, filters);
+      setSearchName('');
+    }
   };
 
-  const hasActiveFilters =
-    cultures.length > 0 || materials.length > 0 || conditions.length > 0;
-
-  const clearAllFilters = () => {
-    onFiltersChange({
-      cultures: [],
-      materials: [],
-      conditions: [],
-      periodRange: [0, 2000],
-      tagLogic: 'OR',
-    });
-  };
+  const hasActiveFilters = selectedCultures.length > 0 || selectedMaterials.length > 0 || 
+    selectedConditions.length > 0 || periodStart || periodEnd;
 
   return (
-    <Card className="mb-6">
-      <CardHeader className="pb-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <CardTitle className="text-lg">Filtros Avanzados</CardTitle>
-            {hasActiveFilters && (
-              <Badge variant="secondary" className="text-xs">
-                {cultures.length + materials.length + conditions.length} activos
-              </Badge>
-            )}
-          </div>
-          <div className="flex items-center gap-2">
-            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-              <DialogTrigger asChild>
-                <Button variant="outline" size="sm" className="text-xs">
-                  <Save className="h-3 w-3 mr-1" />
-                  Guardar Búsqueda
-                </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Guardar Búsqueda</DialogTitle>
-                  <DialogDescription>
-                    Dale un nombre a esta búsqueda para acceder fácilmente más tarde
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="space-y-4">
-                  <Input
-                    placeholder="Nombre de la búsqueda..."
-                    value={saveSearchName}
-                    onChange={(e) => setSaveSearchName(e.target.value)}
-                  />
-                  {(searchQuery || hasActiveFilters) && (
-                    <div className="text-sm text-muted-foreground space-y-2">
-                      <p><strong>Vista previa:</strong></p>
-                      {searchQuery && <p>Consulta: "{searchQuery}"</p>}
-                      {cultures.length > 0 && <p>Culturas: {cultures.join(', ')}</p>}
-                      {materials.length > 0 && <p>Materiales: {materials.join(', ')}</p>}
-                      {conditions.length > 0 && <p>Condiciones: {conditions.join(', ')}</p>}
-                    </div>
-                  )}
-                </div>
-                <DialogFooter>
-                  <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
-                    Cancelar
-                  </Button>
-                  <Button onClick={handleSaveSearch}>
-                    Guardar Búsqueda
-                  </Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setIsExpanded(!isExpanded)}
-            >
-              {isExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-            </Button>
-          </div>
-        </div>
-      </CardHeader>
-
-      {isExpanded && (
-        <CardContent className="space-y-4">
+    <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+      <CollapsibleTrigger asChild>
+        <Button variant="outline" className="flex items-center gap-2">
+          <span>Filtros Avanzados</span>
+          {hasActiveFilters && (
+            <Badge variant="secondary" className="ml-1">
+              {selectedCultures.length + selectedMaterials.length + selectedConditions.length}
+            </Badge>
+          )}
+          <ChevronDown className={`h-4 w-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        </Button>
+      </CollapsibleTrigger>
+      
+      <CollapsibleContent className="mt-4">
+        <div className="bg-muted/30 p-6 rounded-lg space-y-6">
+          {/* Period Range */}
           <div className="space-y-2">
-            <h4 className="text-sm font-medium">Culturas</h4>
+            <Label className="text-sm font-medium">Rango de Período</Label>
+            <div className="grid grid-cols-2 gap-2">
+              <Input
+                placeholder="Año inicio (ej: 800)"
+                value={periodStart}
+                onChange={(e) => {
+                  setPeriodStart(e.target.value);
+                  applyFilters({ periodStart: e.target.value });
+                }}
+              />
+              <Input
+                placeholder="Año fin (ej: 100)"
+                value={periodEnd}
+                onChange={(e) => {
+                  setPeriodEnd(e.target.value);
+                  applyFilters({ periodEnd: e.target.value });
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Tag Logic */}
+          <div className="space-y-2">
+            <Label className="text-sm font-medium">Lógica de Filtros</Label>
+            <Select value={tagLogic} onValueChange={(value: 'OR' | 'AND') => {
+              setTagLogic(value);
+              applyFilters({ tagLogic: value });
+            }}>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="OR">Cualquier criterio (OR)</SelectItem>
+                <SelectItem value="AND">Todos los criterios (AND)</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Cultures */}
+          <div className="space-y-2">
+            <Label className="text-sm font-medium">Culturas</Label>
             <div className="flex flex-wrap gap-2">
-              {availableOptions.cultures.map((culture) => (
+              {cultures.map(culture => (
                 <div key={culture} className="flex items-center space-x-2">
                   <Checkbox
                     id={`culture-${culture}`}
-                    checked={cultures.includes(culture)}
-                    onCheckedChange={(checked) =>
-                      handleCheckboxChange('cultures', culture, !!checked)
-                    }
+                    checked={selectedCultures.includes(culture)}
+                    onCheckedChange={() => handleCultureToggle(culture)}
                   />
-                  <Label htmlFor={`culture-${culture}`} className="text-sm">
-                    {culture}
-                  </Label>
+                  <Label htmlFor={`culture-${culture}`} className="text-sm">{culture}</Label>
                 </div>
               ))}
             </div>
           </div>
 
+          {/* Materials */}
           <div className="space-y-2">
-            <h4 className="text-sm font-medium">Materiales</h4>
+            <Label className="text-sm font-medium">Materiales</Label>
             <div className="flex flex-wrap gap-2">
-              {availableOptions.materials.map((material) => (
+              {materials.map(material => (
                 <div key={material} className="flex items-center space-x-2">
                   <Checkbox
                     id={`material-${material}`}
-                    checked={materials.includes(material)}
-                    onCheckedChange={(checked) =>
-                      handleCheckboxChange('materials', material, !!checked)
-                    }
+                    checked={selectedMaterials.includes(material)}
+                    onCheckedChange={() => handleMaterialToggle(material)}
                   />
-                  <Label htmlFor={`material-${material}`} className="text-sm">
-                    {material}
-                  </Label>
+                  <Label htmlFor={`material-${material}`} className="text-sm">{material}</Label>
                 </div>
               ))}
             </div>
           </div>
 
+          {/* Conditions */}
           <div className="space-y-2">
-            <h4 className="text-sm font-medium">Condiciones</h4>
+            <Label className="text-sm font-medium">Estado de Conservación</Label>
             <div className="flex flex-wrap gap-2">
-              {availableOptions.conditions.map((condition) => (
+              {conditions.map(condition => (
                 <div key={condition} className="flex items-center space-x-2">
                   <Checkbox
                     id={`condition-${condition}`}
-                    checked={conditions.includes(condition)}
-                    onCheckedChange={(checked) =>
-                      handleCheckboxChange('conditions', condition, !!checked)
-                    }
+                    checked={selectedConditions.includes(condition)}
+                    onCheckedChange={() => handleConditionToggle(condition)}
                   />
-                  <Label htmlFor={`condition-${condition}`} className="text-sm">
-                    {condition}
-                  </Label>
+                  <Label htmlFor={`condition-${condition}`} className="text-sm">{condition}</Label>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="space-y-2">
-            <h4 className="text-sm font-medium">Período (DC)</h4>
-            <Slider
-              defaultValue={periodRange}
-              min={0}
-              max={2000}
-              step={100}
-              onValueChange={(value) => handlePeriodChange(value)}
-            />
-            <div className="flex items-center justify-between text-sm text-muted-foreground">
-              <span>{periodRange[0]} DC</span>
-              <span>{periodRange[1]} DC</span>
+          {/* Save Search */}
+          <div className="space-y-2 pt-4 border-t">
+            <Label className="text-sm font-medium">Guardar Búsqueda</Label>
+            <div className="flex gap-2">
+              <Input
+                placeholder="Nombre de la búsqueda..."
+                value={searchName}
+                onChange={(e) => setSearchName(e.target.value)}
+              />
+              <Button onClick={handleSaveSearch} disabled={!searchName.trim()}>
+                <Save className="h-4 w-4 mr-2" />
+                Guardar
+              </Button>
             </div>
           </div>
 
-          <div className="space-y-2">
-            <h4 className="text-sm font-medium">Lógica de Etiquetas</h4>
-            <RadioGroup
-              defaultValue={tagLogic}
-              className="flex gap-2"
-              onValueChange={handleTagLogicChange}
-            >
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="OR" id="tag-logic-or" />
-                <Label htmlFor="tag-logic-or">OR</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="AND" id="tag-logic-and" />
-                <Label htmlFor="tag-logic-and">AND</Label>
-              </div>
-            </RadioGroup>
+          {/* Actions */}
+          <div className="flex gap-2 pt-2">
+            <Button onClick={clearFilters} variant="outline">
+              <X className="h-4 w-4 mr-2" />
+              Limpiar Filtros
+            </Button>
           </div>
-
-          <Button variant="link" size="sm" onClick={clearAllFilters}>
-            Limpiar todos los filtros
-          </Button>
-        </CardContent>
-      )}
-    </Card>
+        </div>
+      </CollapsibleContent>
+    </Collapsible>
   );
 };
 
