@@ -1,4 +1,3 @@
-
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -7,6 +6,7 @@ import { ArrowLeft, Calendar, MapPin, Palette, Ruler, FileText, Award, BookOpen 
 import RentalButton from './RentalButton';
 import BookmarkButton from './BookmarkButton';
 import Breadcrumbs from './Breadcrumbs';
+import LanguageSwitcher from './LanguageSwitcher';
 import { useTranslation } from 'react-i18next';
 
 interface Artifact {
@@ -56,7 +56,10 @@ const ArtifactDetail = ({ artifact, onBack }: ArtifactDetailProps) => {
       {/* Enhanced Header */}
       <header className="border-b bg-card shadow-sm">
         <div className="container mx-auto px-6 py-6">
-          <Breadcrumbs items={breadcrumbItems} />
+          <div className="flex items-center justify-between mb-4">
+            <Breadcrumbs items={breadcrumbItems} />
+            <LanguageSwitcher />
+          </div>
           <div className="flex items-center gap-4">
             <div className="flex-1">
               <h1 className="text-3xl font-bold text-foreground">{artifact.title}</h1>

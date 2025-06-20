@@ -60,6 +60,86 @@
     "imageNotAvailable": "Image Not Available",
     "highResAvailable": "High Resolution Image Available Upon Request"
   },
+  "artifacts": {
+    "1": {
+      "title": "Textile Fragment with Geometric Design",
+      "category": "Textile",
+      "period": "Early Horizon",
+      "culture": "Paracas",
+      "material": "Camelid fiber",
+      "dimensions": "15 x 20 cm",
+      "location": "Museo AMANO, Lima",
+      "description": "A vibrant textile fragment featuring a complex geometric design, characteristic of the Paracas culture's weaving artistry.",
+      "provenance": "Excavated from a Paracas necropolis in the Ica Valley, Peru.",
+      "significance": "Demonstrates the advanced weaving techniques and symbolic language of the Paracas people.",
+      "condition": "Excellent"
+    },
+    "2": {
+      "title": "Ceramic Vessel with Feline Motif",
+      "category": "Ceramic",
+      "period": "Middle Horizon",
+      "culture": "Huari",
+      "material": "Ceramic",
+      "dimensions": "25 cm height, 18 cm diameter",
+      "location": "Museo Nacional de Arqueología, Antropología e Historia del Perú, Lima",
+      "description": "A finely crafted ceramic vessel adorned with a stylized feline motif, indicative of the Huari culture's artistic and religious beliefs.",
+      "provenance": "Discovered in a Huari administrative center in the Ayacucho region, Peru.",
+      "significance": "Represents the Huari culture's integration of diverse artistic traditions and their widespread influence across the Andes.",
+      "condition": "Good"
+    },
+    "3": {
+      "title": "Feathered Headdress",
+      "category": "Ornament",
+      "period": "Late Intermediate Period",
+      "culture": "Chimú",
+      "material": "Feathers, cotton, gold",
+      "dimensions": "30 cm height, 40 cm width",
+      "location": "Museo del Oro del Perú, Lima",
+      "description": "An elaborate feathered headdress embellished with gold accents, showcasing the Chimú culture's mastery of featherwork and metalworking.",
+      "provenance": "Recovered from a Chimú burial site near Chan Chan, Peru.",
+      "significance": "Symbolizes the Chimú elite's power and status, as well as their sophisticated craftsmanship.",
+      "condition": "Very good"
+    },
+    "4": {
+      "title": "Kero Cup with Ceremonial Scene",
+      "category": "Vessel",
+      "period": "Late Horizon",
+      "culture": "Inca",
+      "material": "Wood",
+      "dimensions": "12 cm height, 8 cm diameter",
+      "location": "Museo Inka, Cusco",
+      "description": "A wooden kero cup intricately carved with a ceremonial scene, reflecting the Inca culture's ritual practices and social hierarchy.",
+      "provenance": "Collected from a noble's tomb in the Cusco region, Peru.",
+      "significance": "Provides insights into Inca social customs, artistic conventions, and the use of keros in state ceremonies.",
+      "condition": "Excellent"
+    },
+    "5": {
+      "title": "Textile Panel with Anthropomorphic Figures",
+      "category": "Textile",
+      "period": "Early Intermediate Period",
+      "culture": "Nazca",
+      "material": "Cotton, camelid fiber",
+      "dimensions": "80 x 60 cm",
+      "location": "Museo Arqueológico Antonini, Nazca",
+      "description": "A colorful textile panel featuring stylized anthropomorphic figures, characteristic of the Nazca culture's vibrant textile tradition.",
+      "provenance": "Unearthed from a Nazca burial site in the Nazca Desert, Peru.",
+      "significance": "Illustrates the Nazca culture's complex iconography and their beliefs about the relationship between humans and the supernatural.",
+      "condition": "Good"
+    },
+    "6": {
+      "title": "Chancay Doll",
+      "category": "Textile Doll",
+      "period": "Late Intermediate Period",
+      "culture": "Chancay",
+      "material": "Cotton",
+      "dimensions": "40 cm height",
+      "location": "Museo Textil Precolombino",
+      "description": "A Chancay doll made of woven cotton, representing a female figure. Chancay dolls are often found in burial sites.",
+      "provenance": "Excavated from a Chancay burial site near the coast of Peru.",
+      "significance": "Provides insights into the Chancay culture's burial practices and their views on the afterlife.",
+      "condition": "Very good"
+    }
+  },
   "actions": {
     "bookmark": "Bookmark",
     "bookmarked": "Bookmarked",

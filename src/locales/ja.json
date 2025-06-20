@@ -60,6 +60,86 @@
     "imageNotAvailable": "画像が利用できません",
     "highResAvailable": "高解像度画像はリクエストにより利用可能"
   },
+  "artifacts": {
+    "1": {
+      "title": "幾何学模様の織物断片",
+      "category": "織物",
+      "period": "前期地平線",
+      "culture": "パラカス",
+      "material": "ラクダ科動物の繊維",
+      "dimensions": "15 x 20 cm",
+      "location": "アマノ博物館、リマ",
+      "description": "複雑な幾何学模様を特徴とする鮮やかな織物断片で、パラカス文化の織物技術の特徴を示している。",
+      "provenance": "ペルーのイカ渓谷のパラカス墓地から発掘。",
+      "significance": "パラカス民族の高度な織物技術と象徴的言語を実証している。",
+      "condition": "優秀"
+    },
+    "2": {
+      "title": "ネコ科動物の文様がある陶器",
+      "category": "陶器",
+      "period": "中期地平線",
+      "culture": "ワリ",
+      "material": "陶器",
+      "dimensions": "高さ25cm、直径18cm",
+      "location": "ペルー国立考古学・人類学・歴史博物館、リマ",
+      "description": "様式化されたネコ科動物の文様で装飾された精巧に作られた陶器で、ワリ文化の芸術的・宗教的信念を示している。",
+      "provenance": "ペルーのアヤクチョ地域のワリ行政センターで発見。",
+      "significance": "ワリ文化の多様な芸術的伝統の統合とアンデス全域への広範囲な影響を表している。",
+      "condition": "良好"
+    },
+    "3": {
+      "title": "羽根飾り",
+      "category": "装飾品",
+      "period": "後期中間期",
+      "culture": "チムー",
+      "material": "羽根、綿、金",
+      "dimensions": "高さ30cm、幅40cm",
+      "location": "ペルー黄金博物館、リマ",
+      "description": "金のアクセントで装飾された精巧な羽根飾りで、チムー文化の羽根細工と金属加工の熟練を示している。",
+      "provenance": "ペルーのチャンチャン近くのチムー埋葬地から回収。",
+      "significance": "チムーエリートの権力と地位、そして彼らの洗練された職人技を象徴している。",
+      "condition": "非常に良好"
+    },
+    "4": {
+      "title": "儀式場面のケロ杯",
+      "category": "容器",
+      "period": "後期地平線",
+      "culture": "インカ",
+      "material": "木材",
+      "dimensions": "高さ12cm、直径8cm",
+      "location": "インカ博物館、クスコ",
+      "description": "儀式場面が複雑に彫刻された木製のケロ杯で、インカ文化の儀式的慣行と社会階層を反映している。",
+      "provenance": "ペルーのクスコ地域の貴族の墓から収集。",
+      "significance": "インカの社会的慣習、芸術的慣例、国家儀式でのケロの使用についての洞察を提供している。",
+      "condition": "優秀"
+    },
+    "5": {
+      "title": "人物文様の織物パネル",
+      "category": "織物",
+      "period": "前期中間期",
+      "culture": "ナスカ",
+      "material": "綿、ラクダ科動物の繊維",
+      "dimensions": "80 x 60 cm",
+      "location": "アントニーニ考古学博物館、ナスカ",
+      "description": "様式化された人物文様を特徴とするカラフルな織物パネルで、ナスカ文化の鮮やかな織物伝統の特徴である。",
+      "provenance": "ペルーのナスカ砂漠のナスカ埋葬地から発掘。",
+      "significance": "ナスカ文化の複雑な図像学と人間と超自然的存在との関係についての信念を示している。",
+      "condition": "良好"
+    },
+    "6": {
+      "title": "チャンカイ人形",
+      "category": "織物人形",
+      "period": "後期中間期",
+      "culture": "チャンカイ",
+      "material": "綿",
+      "dimensions": "高さ40cm",
+      "location": "プレコロンビア織物博物館",
+      "description": "女性の姿を表現した織り綿で作られたチャンカイ人形。チャンカイ人形は埋葬地でよく発見される。",
+      "provenance": "ペルーの海岸近くのチャンカイ埋葬地から発掘。",
+      "significance": "チャンカイ文化の埋葬慣行と来世についての見解への洞察を提供している。",
+      "condition": "非常に良好"
+    }
+  },
   "actions": {
     "bookmark": "ブックマーク",
     "bookmarked": "ブックマーク済み",

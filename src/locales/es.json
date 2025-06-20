@@ -60,6 +60,86 @@
     "imageNotAvailable": "Imagen No Disponible",
     "highResAvailable": "Imagen de Alta Resolución Disponible Bajo Solicitud"
   },
+  "artifacts": {
+    "1": {
+      "title": "Fragmento Textil con Diseño Geométrico",
+      "category": "Textil",
+      "period": "Horizonte Temprano",
+      "culture": "Paracas",
+      "material": "Fibra de camélido",
+      "dimensions": "15 x 20 cm",
+      "location": "Museo AMANO, Lima",
+      "description": "Un vibrante fragmento textil con un diseño geométrico complejo, característico del arte textil de la cultura Paracas.",
+      "provenance": "Excavado de una necrópolis Paracas en el Valle de Ica, Perú.",
+      "significance": "Demuestra las técnicas avanzadas de tejido y el lenguaje simbólico del pueblo Paracas.",
+      "condition": "Excelente"
+    },
+    "2": {
+      "title": "Vasija Cerámica con Motivo Felino",
+      "category": "Cerámica",
+      "period": "Horizonte Medio",
+      "culture": "Huari",
+      "material": "Cerámica",
+      "dimensions": "25 cm altura, 18 cm diámetro",
+      "location": "Museo Nacional de Arqueología, Antropología e Historia del Perú, Lima",
+      "description": "Una vasija cerámica finamente elaborada adornada con un motivo felino estilizado, indicativo de las creencias artísticas y religiosas de la cultura Huari.",
+      "provenance": "Descubierta en un centro administrativo Huari en la región de Ayacucho, Perú.",
+      "significance": "Representa la integración de diversas tradiciones artísticas de la cultura Huari y su amplia influencia en los Andes.",
+      "condition": "Bueno"
+    },
+    "3": {
+      "title": "Tocado de Plumas",
+      "category": "Ornamento",
+      "period": "Período Intermedio Tardío",
+      "culture": "Chimú",
+      "material": "Plumas, algodón, oro",
+      "dimensions": "30 cm altura, 40 cm ancho",
+      "location": "Museo del Oro del Perú, Lima",
+      "description": "Un elaborado tocado de plumas embellecido con acentos de oro, mostrando la maestría de la cultura Chimú en el trabajo de plumas y metales.",
+      "provenance": "Recuperado de un sitio de entierro Chimú cerca de Chan Chan, Perú.",
+      "significance": "Simboliza el poder y estatus de la élite Chimú, así como su sofisticada artesanía.",
+      "condition": "Muy bueno"
+    },
+    "4": {
+      "title": "Copa Kero con Escena Ceremonial",
+      "category": "Vasija",
+      "period": "Horizonte Tardío",
+      "culture": "Inca",
+      "material": "Madera",
+      "dimensions": "12 cm altura, 8 cm diámetro",
+      "location": "Museo Inka, Cusco",
+      "description": "Una copa kero de madera intrincadamente tallada con una escena ceremonial, reflejando las prácticas rituales y jerarquía social de la cultura Inca.",
+      "provenance": "Recolectada de la tumba de un noble en la región del Cusco, Perú.",
+      "significance": "Proporciona perspectivas sobre las costumbres sociales incas, convenciones artísticas y el uso de keros en ceremonias estatales.",
+      "condition": "Excelente"
+    },
+    "5": {
+      "title": "Panel Textil con Figuras Antropomorfas",
+      "category": "Textil",
+      "period": "Período Intermedio Temprano",
+      "culture": "Nazca",
+      "material": "Algodón, fibra de camélido",
+      "dimensions": "80 x 60 cm",
+      "location": "Museo Arqueológico Antonini, Nazca",
+      "description": "Un panel textil colorido con figuras antropomorfas estilizadas, característico de la vibrante tradición textil de la cultura Nazca.",
+      "provenance": "Desenterrado de un sitio de entierro Nazca en el Desierto de Nazca, Perú.",
+      "significance": "Ilustra la iconografía compleja de la cultura Nazca y sus creencias sobre la relación entre humanos y lo sobrenatural.",
+      "condition": "Bueno"
+    },
+    "6": {
+      "title": "Muñeca Chancay",
+      "category": "Muñeca Textil",
+      "period": "Período Intermedio Tardío",
+      "culture": "Chancay",
+      "material": "Algodón",
+      "dimensions": "40 cm altura",
+      "location": "Museo Textil Precolombino",
+      "description": "Una muñeca Chancay hecha de algodón tejido, representando una figura femenina. Las muñecas Chancay se encuentran a menudo en sitios de entierro.",
+      "provenance": "Excavada de un sitio de entierro Chancay cerca de la costa del Perú.",
+      "significance": "Proporciona perspectivas sobre las prácticas funerarias de la cultura Chancay y sus puntos de vista sobre la vida después de la muerte.",
+      "condition": "Muy bueno"
+    }
+  },
   "actions": {
     "bookmark": "Guardar",
     "bookmarked": "Guardado",
