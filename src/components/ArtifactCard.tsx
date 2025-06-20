@@ -1,8 +1,10 @@
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Calendar, MapPin, Palette } from 'lucide-react';
 import RentalButton from './RentalButton';
 import BookmarkButton from './BookmarkButton';
+import { useTranslation } from 'react-i18next';
 
 interface Artifact {
   id: number;
@@ -26,6 +28,8 @@ interface ArtifactCardProps {
 }
 
 const ArtifactCard = ({ artifact, viewMode, onClick }: ArtifactCardProps) => {
+  const { t } = useTranslation();
+  
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     const target = e.currentTarget;
     const fallback = target.nextElementSibling as HTMLElement;
@@ -47,7 +51,7 @@ const ArtifactCard = ({ artifact, viewMode, onClick }: ArtifactCardProps) => {
               onError={handleImageError}
             />
             <div className="hidden w-full h-full items-center justify-center text-sm">
-              Image Not Available
+              {t('artifact.imageNotAvailable')}
             </div>
           </div>
           <div className="flex-1 p-6">
@@ -102,7 +106,7 @@ const ArtifactCard = ({ artifact, viewMode, onClick }: ArtifactCardProps) => {
           onError={handleImageError}
         />
         <div className="hidden w-full h-full items-center justify-center text-sm">
-          Image Not Available
+          {t('artifact.imageNotAvailable')}
         </div>
       </div>
       <CardHeader className="pb-3">

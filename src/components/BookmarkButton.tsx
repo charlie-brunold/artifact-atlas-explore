@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Bookmark, BookmarkCheck } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useTranslation } from 'react-i18next';
 
 interface BookmarkButtonProps {
   artifactId: number;
@@ -14,6 +15,7 @@ interface BookmarkButtonProps {
 const BookmarkButton = ({ artifactId, artifactTitle, size = 'default', variant = 'outline' }: BookmarkButtonProps) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const bookmarks = JSON.parse(localStorage.getItem('artifact-bookmarks') || '[]');
@@ -30,16 +32,16 @@ const BookmarkButton = ({ artifactId, artifactTitle, size = 'default', variant =
       localStorage.setItem('artifact-bookmarks', JSON.stringify(updatedBookmarks));
       setIsBookmarked(false);
       toast({
-        title: "Marcador eliminado",
-        description: `${artifactTitle} ha sido eliminado de tu colección.`,
+        title: t('notifications.bookmarkRemoved'),
+        description: t('notifications.bookmarkRemovedDesc', { title: artifactTitle }),
       });
     } else {
       const updatedBookmarks = [...bookmarks, artifactId];
       localStorage.setItem('artifact-bookmarks', JSON.stringify(updatedBookmarks));
       setIsBookmarked(true);
       toast({
-        title: "Marcador añadido",
-        description: `${artifactTitle} ha sido añadido a tu colección.`,
+        title: t('notifications.bookmarkAdded'),
+        description: t('notifications.bookmarkAddedDesc', { title: artifactTitle }),
       });
     }
   };
@@ -52,7 +54,7 @@ const BookmarkButton = ({ artifactId, artifactTitle, size = 'default', variant =
       className={`flex items-center gap-2 ${isBookmarked ? 'text-teal-600 border-teal-600' : ''}`}
     >
       {isBookmarked ? <BookmarkCheck className="h-4 w-4" /> : <Bookmark className="h-4 w-4" />}
-      {size !== 'sm' && (isBookmarked ? 'Guardado' : 'Guardar')}
+      {size !== 'sm' && (isBookmarked ? t('actions.bookmarked') : t('actions.bookmark'))}
     </Button>
   );
 };

@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ShoppingCart, CheckCircle } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
+import { useTranslation } from 'react-i18next';
 
 interface RentalButtonProps {
   artifact: any;
@@ -11,6 +12,7 @@ interface RentalButtonProps {
 
 const RentalButton = ({ artifact, size = 'default' }: RentalButtonProps) => {
   const { cartItems, addToCart } = useCart();
+  const { t } = useTranslation();
   
   const isInCart = cartItems.some(item => item.artifactId === artifact.id);
 
@@ -18,7 +20,7 @@ const RentalButton = ({ artifact, size = 'default' }: RentalButtonProps) => {
     return (
       <Badge variant="secondary" className="flex items-center gap-1">
         <CheckCircle className="h-3 w-3" />
-        En Carrito de Investigación
+        {t('actions.inResearchCart')}
       </Badge>
     );
   }
@@ -31,7 +33,7 @@ const RentalButton = ({ artifact, size = 'default' }: RentalButtonProps) => {
       className="flex items-center gap-2"
     >
       <ShoppingCart className="h-4 w-4" />
-      Solicitar para Investigación
+      {t('actions.requestResearch')}
     </Button>
   );
 };

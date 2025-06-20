@@ -1,3 +1,4 @@
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -6,6 +7,7 @@ import { ArrowLeft, Calendar, MapPin, Palette, Ruler, FileText, Award, BookOpen 
 import RentalButton from './RentalButton';
 import BookmarkButton from './BookmarkButton';
 import Breadcrumbs from './Breadcrumbs';
+import { useTranslation } from 'react-i18next';
 
 interface Artifact {
   id: number;
@@ -33,6 +35,8 @@ interface ArtifactDetailProps {
 }
 
 const ArtifactDetail = ({ artifact, onBack }: ArtifactDetailProps) => {
+  const { t } = useTranslation();
+  
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     const target = e.currentTarget;
     const fallback = target.nextElementSibling as HTMLElement;
@@ -43,7 +47,7 @@ const ArtifactDetail = ({ artifact, onBack }: ArtifactDetailProps) => {
   };
 
   const breadcrumbItems = [
-    { label: 'Catálogo', onClick: onBack },
+    { label: t('breadcrumbs.catalog'), onClick: onBack },
     { label: artifact.title, active: true }
   ];
 
@@ -83,7 +87,7 @@ const ArtifactDetail = ({ artifact, onBack }: ArtifactDetailProps) => {
                     onError={handleImageError}
                   />
                   <div className="hidden w-full h-full items-center justify-center text-lg">
-                    Imagen de Alta Resolución Disponible Bajo Solicitud
+                    {t('artifact.highResAvailable')}
                   </div>
                 </div>
               </CardContent>
@@ -94,7 +98,7 @@ const ArtifactDetail = ({ artifact, onBack }: ArtifactDetailProps) => {
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
                   <FileText className="h-5 w-5" />
-                  Datos Principales
+                  {t('artifact.mainData')}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
@@ -104,27 +108,27 @@ const ArtifactDetail = ({ artifact, onBack }: ArtifactDetailProps) => {
                 <div className="grid grid-cols-1 gap-3 text-sm">
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4 text-muted-foreground" />
-                    <span className="font-medium">Período:</span>
+                    <span className="font-medium">{t('artifact.period')}:</span>
                     <span>{artifact.period}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <MapPin className="h-4 w-4 text-muted-foreground" />
-                    <span className="font-medium">Cultura:</span>
+                    <span className="font-medium">{t('artifact.culture')}:</span>
                     <span>{artifact.culture}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Palette className="h-4 w-4 text-muted-foreground" />
-                    <span className="font-medium">Material:</span>
+                    <span className="font-medium">{t('artifact.material')}:</span>
                     <span>{artifact.material}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Ruler className="h-4 w-4 text-muted-foreground" />
-                    <span className="font-medium">Dimensiones:</span>
+                    <span className="font-medium">{t('artifact.dimensions')}:</span>
                     <span>{artifact.dimensions}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Award className="h-4 w-4 text-muted-foreground" />
-                    <span className="font-medium">Estado:</span>
+                    <span className="font-medium">{t('artifact.condition')}:</span>
                     <span>{artifact.condition}</span>
                   </div>
                 </div>
@@ -137,7 +141,7 @@ const ArtifactDetail = ({ artifact, onBack }: ArtifactDetailProps) => {
             {/* Description */}
             <Card>
               <CardHeader>
-                <CardTitle>Descripción</CardTitle>
+                <CardTitle>{t('artifact.description')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground leading-relaxed">{artifact.description}</p>
@@ -147,7 +151,7 @@ const ArtifactDetail = ({ artifact, onBack }: ArtifactDetailProps) => {
             {/* Cultural Significance */}
             <Card>
               <CardHeader>
-                <CardTitle>Significado Cultural</CardTitle>
+                <CardTitle>{t('artifact.culturalSignificance')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground leading-relaxed">{artifact.significance}</p>
@@ -157,15 +161,15 @@ const ArtifactDetail = ({ artifact, onBack }: ArtifactDetailProps) => {
             {/* Provenance */}
             <Card>
               <CardHeader>
-                <CardTitle>Procedencia</CardTitle>
-                <CardDescription>Historia de Adquisición y Documentación</CardDescription>
+                <CardTitle>{t('artifact.provenance')}</CardTitle>
+                <CardDescription>{t('artifact.acquisitionHistory')}</CardDescription>
               </CardHeader>
               <CardContent className="space-y-3">
                 <p className="text-muted-foreground leading-relaxed">{artifact.provenance}</p>
                 <Separator />
                 <div className="text-sm">
-                  <p><span className="font-medium">Fecha de Adquisición:</span> {new Date(artifact.dateAcquired).toLocaleDateString('es-PE', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                  <p><span className="font-medium">Ubicación Original:</span> {artifact.location}</p>
+                  <p><span className="font-medium">{t('artifact.acquisitionDate')}:</span> {new Date(artifact.dateAcquired).toLocaleDateString('es-PE', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                  <p><span className="font-medium">{t('artifact.originalLocation')}:</span> {artifact.location}</p>
                 </div>
               </CardContent>
             </Card>
@@ -175,7 +179,7 @@ const ArtifactDetail = ({ artifact, onBack }: ArtifactDetailProps) => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Award className="h-5 w-5" />
-                  Historial de Exposiciones
+                  {t('artifact.exhibitionHistory')}
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -195,7 +199,7 @@ const ArtifactDetail = ({ artifact, onBack }: ArtifactDetailProps) => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <BookOpen className="h-5 w-5" />
-                  Bibliografía Seleccionada
+                  {t('artifact.selectedBibliography')}
                 </CardTitle>
               </CardHeader>
               <CardContent>

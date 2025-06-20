@@ -8,17 +8,15 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { ChevronDown, X, Save } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface AdvancedFiltersProps {
   onFiltersChange: (filters: any) => void;
   onSaveSearch: (searchName: string, filters: any) => void;
 }
 
-const cultures = ['Paracas', 'Chancay', 'Inca', 'Huari', 'Nazca', 'Chimú'];
-const materials = ['Fibra de camélido', 'Algodón', 'Lana de alpaca', 'Plumas', 'Fibra de vicuña'];
-const conditions = ['Excelente', 'Muy bueno', 'Bueno'];
-
 const AdvancedFilters = ({ onFiltersChange, onSaveSearch }: AdvancedFiltersProps) => {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCultures, setSelectedCultures] = useState<string[]>([]);
   const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
@@ -27,6 +25,10 @@ const AdvancedFilters = ({ onFiltersChange, onSaveSearch }: AdvancedFiltersProps
   const [periodEnd, setPeriodEnd] = useState('');
   const [tagLogic, setTagLogic] = useState<'OR' | 'AND'>('OR');
   const [searchName, setSearchName] = useState('');
+
+  const cultures = ['Paracas', 'Chancay', 'Inca', 'Huari', 'Nazca', 'Chimú'];
+  const materials = ['Fibra de camélido', 'Algodón', 'Lana de alpaca', 'Plumas', 'Fibra de vicuña'];
+  const conditions = ['Excelente', 'Muy bueno', 'Bueno'];
 
   const handleCultureToggle = (culture: string) => {
     const updated = selectedCultures.includes(culture)
@@ -97,7 +99,7 @@ const AdvancedFilters = ({ onFiltersChange, onSaveSearch }: AdvancedFiltersProps
     <Collapsible open={isOpen} onOpenChange={setIsOpen}>
       <CollapsibleTrigger asChild>
         <Button variant="outline" className="flex items-center gap-2">
-          <span>Filtros Avanzados</span>
+          <span>{t('search.advancedFilters')}</span>
           {hasActiveFilters && (
             <Badge variant="secondary" className="ml-1">
               {selectedCultures.length + selectedMaterials.length + selectedConditions.length}
@@ -111,10 +113,10 @@ const AdvancedFilters = ({ onFiltersChange, onSaveSearch }: AdvancedFiltersProps
         <div className="bg-muted/30 p-6 rounded-lg space-y-6">
           {/* Period Range */}
           <div className="space-y-2">
-            <Label className="text-sm font-medium">Rango de Período</Label>
+            <Label className="text-sm font-medium">{t('filters.periodRange')}</Label>
             <div className="grid grid-cols-2 gap-2">
               <Input
-                placeholder="Año inicio (ej: 800)"
+                placeholder={t('filters.yearStart')}
                 value={periodStart}
                 onChange={(e) => {
                   setPeriodStart(e.target.value);
@@ -122,7 +124,7 @@ const AdvancedFilters = ({ onFiltersChange, onSaveSearch }: AdvancedFiltersProps
                 }}
               />
               <Input
-                placeholder="Año fin (ej: 100)"
+                placeholder={t('filters.yearEnd')}
                 value={periodEnd}
                 onChange={(e) => {
                   setPeriodEnd(e.target.value);
@@ -134,7 +136,7 @@ const AdvancedFilters = ({ onFiltersChange, onSaveSearch }: AdvancedFiltersProps
 
           {/* Tag Logic */}
           <div className="space-y-2">
-            <Label className="text-sm font-medium">Lógica de Filtros</Label>
+            <Label className="text-sm font-medium">{t('filters.filterLogic')}</Label>
             <Select value={tagLogic} onValueChange={(value: 'OR' | 'AND') => {
               setTagLogic(value);
               applyFilters({ tagLogic: value });
@@ -143,15 +145,15 @@ const AdvancedFilters = ({ onFiltersChange, onSaveSearch }: AdvancedFiltersProps
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="OR">Cualquier criterio (OR)</SelectItem>
-                <SelectItem value="AND">Todos los criterios (AND)</SelectItem>
+                <SelectItem value="OR">{t('filters.anyMatch')}</SelectItem>
+                <SelectItem value="AND">{t('filters.allMatch')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           {/* Cultures */}
           <div className="space-y-2">
-            <Label className="text-sm font-medium">Culturas</Label>
+            <Label className="text-sm font-medium">{t('filters.cultures')}</Label>
             <div className="flex flex-wrap gap-2">
               {cultures.map(culture => (
                 <div key={culture} className="flex items-center space-x-2">
@@ -168,7 +170,7 @@ const AdvancedFilters = ({ onFiltersChange, onSaveSearch }: AdvancedFiltersProps
 
           {/* Materials */}
           <div className="space-y-2">
-            <Label className="text-sm font-medium">Materiales</Label>
+            <Label className="text-sm font-medium">{t('filters.materials')}</Label>
             <div className="flex flex-wrap gap-2">
               {materials.map(material => (
                 <div key={material} className="flex items-center space-x-2">
@@ -185,7 +187,7 @@ const AdvancedFilters = ({ onFiltersChange, onSaveSearch }: AdvancedFiltersProps
 
           {/* Conditions */}
           <div className="space-y-2">
-            <Label className="text-sm font-medium">Estado de Conservación</Label>
+            <Label className="text-sm font-medium">{t('filters.condition')}</Label>
             <div className="flex flex-wrap gap-2">
               {conditions.map(condition => (
                 <div key={condition} className="flex items-center space-x-2">
@@ -202,16 +204,16 @@ const AdvancedFilters = ({ onFiltersChange, onSaveSearch }: AdvancedFiltersProps
 
           {/* Save Search */}
           <div className="space-y-2 pt-4 border-t">
-            <Label className="text-sm font-medium">Guardar Búsqueda</Label>
+            <Label className="text-sm font-medium">{t('filters.saveSearch')}</Label>
             <div className="flex gap-2">
               <Input
-                placeholder="Nombre de la búsqueda..."
+                placeholder={t('filters.searchName')}
                 value={searchName}
                 onChange={(e) => setSearchName(e.target.value)}
               />
               <Button onClick={handleSaveSearch} disabled={!searchName.trim()}>
                 <Save className="h-4 w-4 mr-2" />
-                Guardar
+                {t('filters.save')}
               </Button>
             </div>
           </div>
@@ -220,7 +222,7 @@ const AdvancedFilters = ({ onFiltersChange, onSaveSearch }: AdvancedFiltersProps
           <div className="flex gap-2 pt-2">
             <Button onClick={clearFilters} variant="outline">
               <X className="h-4 w-4 mr-2" />
-              Limpiar Filtros
+              {t('filters.clearFilters')}
             </Button>
           </div>
         </div>

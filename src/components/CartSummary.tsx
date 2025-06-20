@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ShoppingCart } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
+import { useTranslation } from 'react-i18next';
 
 interface CartSummaryProps {
   onViewCart: () => void;
@@ -10,6 +11,7 @@ interface CartSummaryProps {
 
 const CartSummary = ({ onViewCart }: CartSummaryProps) => {
   const { cartItems, getTotalCost } = useCart();
+  const { t } = useTranslation();
 
   if (cartItems.length === 0) return null;
 
@@ -21,7 +23,7 @@ const CartSummary = ({ onViewCart }: CartSummaryProps) => {
         size="lg"
       >
         <ShoppingCart className="h-5 w-5" />
-        <span>Carrito de Investigación</span>
+        <span>{t('actions.researchCart')}</span>
         <Badge variant="secondary" className="ml-2">
           {cartItems.length}
         </Badge>
