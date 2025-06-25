@@ -2,19 +2,30 @@
 import { Button } from '@/components/ui/button';
 import { LogIn } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import UserMenu from './UserMenu';
 import LanguageSwitcher from './LanguageSwitcher';
 import Logo from './Logo';
 
-interface HeaderProps {
-  onLogin: () => void;
-  onViewProfile: () => void;
-  onViewCollections: () => void;
-  onViewHistory: () => void;
-}
-
-const Header = ({ onLogin, onViewProfile, onViewCollections, onViewHistory }: HeaderProps) => {
+const Header = () => {
   const { user, loading } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    navigate('/auth');
+  };
+
+  const handleViewProfile = () => {
+    navigate('/profile');
+  };
+
+  const handleViewCollections = () => {
+    navigate('/collections');
+  };
+
+  const handleViewHistory = () => {
+    navigate('/history');
+  };
 
   return (
     <header className="border-b bg-card shadow-sm">
@@ -27,12 +38,12 @@ const Header = ({ onLogin, onViewProfile, onViewCollections, onViewHistory }: He
               <div className="w-10 h-10 bg-muted rounded-full animate-pulse" />
             ) : user ? (
               <UserMenu 
-                onViewProfile={onViewProfile}
-                onViewCollections={onViewCollections}
-                onViewHistory={onViewHistory}
+                onViewProfile={handleViewProfile}
+                onViewCollections={handleViewCollections}
+                onViewHistory={handleViewHistory}
               />
             ) : (
-              <Button onClick={onLogin} variant="outline" className="flex items-center gap-2">
+              <Button onClick={handleLogin} variant="outline" className="flex items-center gap-2">
                 <LogIn className="h-4 w-4" />
                 Iniciar Sesión
               </Button>
