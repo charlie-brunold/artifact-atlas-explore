@@ -9,7 +9,7 @@ import { useCollections } from '@/hooks/useCollections';
 interface BookmarkButtonProps {
   artifactId: number;
   artifactTitle: string;
-  artifact: any;
+  artifact?: any;
   size?: 'sm' | 'default' | 'lg';
   variant?: 'default' | 'outline' | 'ghost';
   onLoginRequired?: () => void;
@@ -57,7 +57,14 @@ const BookmarkButton = ({
         });
       }
     } else {
-      const { error } = await addToCollection(artifact);
+      // Create a minimal artifact object if not provided
+      const artifactToSave = artifact || {
+        id: artifactId,
+        title: artifactTitle,
+        accessionNumber: `ACC-${artifactId}`
+      };
+      
+      const { error } = await addToCollection(artifactToSave);
       if (error) {
         toast({
           title: "Error",
