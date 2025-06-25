@@ -9,7 +9,183 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      profiles: {
+        Row: {
+          created_at: string
+          email: string | null
+          full_name: string | null
+          id: string
+          institution: string | null
+          research_credentials: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id: string
+          institution?: string | null
+          research_credentials?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          institution?: string | null
+          research_credentials?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      rental_history: {
+        Row: {
+          artifacts: Json
+          created_at: string
+          id: string
+          rental_period: Json
+          researcher_info: Json
+          status: string
+          total_cost: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          artifacts: Json
+          created_at?: string
+          id?: string
+          rental_period: Json
+          researcher_info: Json
+          status?: string
+          total_cost: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          artifacts?: Json
+          created_at?: string
+          id?: string
+          rental_period?: Json
+          researcher_info?: Json
+          status?: string
+          total_cost?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_carts: {
+        Row: {
+          artifact_accession_number: string
+          artifact_id: number
+          artifact_title: string
+          created_at: string
+          estimated_cost: number
+          id: string
+          rental_duration: string
+          rental_end_date: string | null
+          rental_start_date: string | null
+          special_requirements: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          artifact_accession_number: string
+          artifact_id: number
+          artifact_title: string
+          created_at?: string
+          estimated_cost?: number
+          id?: string
+          rental_duration?: string
+          rental_end_date?: string | null
+          rental_start_date?: string | null
+          special_requirements?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          artifact_accession_number?: string
+          artifact_id?: number
+          artifact_title?: string
+          created_at?: string
+          estimated_cost?: number
+          id?: string
+          rental_duration?: string
+          rental_end_date?: string | null
+          rental_start_date?: string | null
+          special_requirements?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_collections: {
+        Row: {
+          artifact_accession_number: string | null
+          artifact_id: number
+          artifact_title: string
+          collection_name: string | null
+          created_at: string
+          id: string
+          notes: string | null
+          user_id: string
+        }
+        Insert: {
+          artifact_accession_number?: string | null
+          artifact_id: number
+          artifact_title: string
+          collection_name?: string | null
+          created_at?: string
+          id?: string
+          notes?: string | null
+          user_id: string
+        }
+        Update: {
+          artifact_accession_number?: string | null
+          artifact_id?: number
+          artifact_title?: string
+          collection_name?: string | null
+          created_at?: string
+          id?: string
+          notes?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_payment_methods: {
+        Row: {
+          brand: string | null
+          created_at: string
+          id: string
+          is_default: boolean | null
+          last_four: string | null
+          payment_type: string
+          stripe_payment_method_id: string | null
+          user_id: string
+        }
+        Insert: {
+          brand?: string | null
+          created_at?: string
+          id?: string
+          is_default?: boolean | null
+          last_four?: string | null
+          payment_type?: string
+          stripe_payment_method_id?: string | null
+          user_id: string
+        }
+        Update: {
+          brand?: string | null
+          created_at?: string
+          id?: string
+          is_default?: boolean | null
+          last_four?: string | null
+          payment_type?: string
+          stripe_payment_method_id?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
