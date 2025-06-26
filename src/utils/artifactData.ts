@@ -1,4 +1,3 @@
-
 import { useTranslation } from 'react-i18next';
 
 export interface Artifact {
@@ -21,11 +20,11 @@ export interface Artifact {
   bibliography: string[];
 }
 
-// Base artifact data with static information and appropriate placeholder images
+// Base artifact data with static information and uploaded artifact images
 export const baseArtifacts = [
   {
     id: 1,
-    imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=800&fit=crop&crop=center", // Ancient textile/fabric
+    imageUrl: "/lovable-uploads/5c0c637b-7cc6-401d-977b-89311ab1a6af.png", // Paracas textile with warrior figure
     accessionNumber: "AM-TX-001",
     dateAcquired: "1958-03-15",
     exhibitions: ["Paracas: Ancient Textiles of Peru, 1992", "Colors of the Andes, 2005"],
@@ -33,7 +32,7 @@ export const baseArtifacts = [
   },
   {
     id: 2,
-    imageUrl: "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=800&h=800&fit=crop&crop=center", // Ancient pottery/vessel
+    imageUrl: "/lovable-uploads/4f52670a-8583-45fc-834b-3e531079dfc6.png", // Chimú blackware stirrup vessel
     accessionNumber: "MNA-CR-002",
     dateAcquired: "1965-11-22",
     exhibitions: ["Huari: Empire of the Andes, 2008", "Art and Cosmos in the Ancient Andes, 2015"],
@@ -41,7 +40,7 @@ export const baseArtifacts = [
   },
   {
     id: 3,
-    imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=800&fit=crop&crop=center", // Gold ornament/headdress
+    imageUrl: "/lovable-uploads/96f9ca3b-7962-4bb5-9283-d56d442e815b.png", // Feathered headdress
     accessionNumber: "MDOP-OR-003",
     dateAcquired: "1972-06-01",
     exhibitions: ["Splendors of the Chimú Empire, 1995", "Gold of the Andes, 2007"],
@@ -49,7 +48,7 @@ export const baseArtifacts = [
   },
   {
     id: 4,
-    imageUrl: "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=800&h=800&fit=crop&crop=center", // Wooden ceremonial cup
+    imageUrl: "/lovable-uploads/053af64f-b140-4a86-ac68-2e4b34a4c54c.png", // Moche parrot vessel
     accessionNumber: "MI-KE-004",
     dateAcquired: "1980-09-10",
     exhibitions: ["Inca: Lords of Gold and Glory, 2000", "The Power of the Incas, 2010"],
@@ -57,7 +56,7 @@ export const baseArtifacts = [
   },
   {
     id: 5,
-    imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=800&fit=crop&crop=center", // Ancient textile
+    imageUrl: "/lovable-uploads/4de6475f-4e5f-4de8-852c-1892a36db4f5.png", // Nazca geometric vessel
     accessionNumber: "MAA-TX-005",
     dateAcquired: "1988-04-01",
     exhibitions: ["Nazca: Decoding the Desert, 2003", "Weaving the World: Textile Art of Ancient Peru, 2012"],
@@ -65,7 +64,7 @@ export const baseArtifacts = [
   },
   {
     id: 6,
-    imageUrl: "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=800&h=800&fit=crop&crop=center", // Ancient doll/figure
+    imageUrl: "/lovable-uploads/5c0c637b-7cc6-401d-977b-89311ab1a6af.png", // Reusing textile for variety
     accessionNumber: "MTP-TX-006",
     dateAcquired: "1990-07-15",
     exhibitions: ["Chancay: Textiles and Pottery, 2005", "Daily Life in Ancient Peru, 2014"],
@@ -74,7 +73,7 @@ export const baseArtifacts = [
 ];
 
 // Fallback image for when artifacts images fail to load
-export const FALLBACK_ARTIFACT_IMAGE = "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=800&h=800&fit=crop&crop=center";
+export const FALLBACK_ARTIFACT_IMAGE = "/lovable-uploads/4f52670a-8583-45fc-834b-3e531079dfc6.png";
 
 export const useTranslatedArtifacts = (): Artifact[] => {
   const { t } = useTranslation();
