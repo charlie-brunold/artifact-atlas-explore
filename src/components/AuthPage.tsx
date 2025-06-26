@@ -9,14 +9,16 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { ArrowLeft, Loader2 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 interface AuthPageProps {
-  onBack: () => void;
+  onBack?: () => void;
 }
 
 const AuthPage = ({ onBack }: AuthPageProps) => {
   const { signIn, signUp } = useAuth();
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
@@ -33,6 +35,14 @@ const AuthPage = ({ onBack }: AuthPageProps) => {
     fullName: '',
     institution: ''
   });
+
+  const handleBack = () => {
+    if (onBack) {
+      onBack();
+    } else {
+      navigate('/');
+    }
+  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -83,7 +93,7 @@ const AuthPage = ({ onBack }: AuthPageProps) => {
       <div className="w-full max-w-md">
         <Button 
           variant="ghost" 
-          onClick={onBack} 
+          onClick={handleBack} 
           className="mb-6 flex items-center gap-2"
         >
           <ArrowLeft className="h-4 w-4" />
