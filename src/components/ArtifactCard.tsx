@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Calendar, MapPin, Palette } from 'lucide-react';
 import RentalButton from './RentalButton';
 import BookmarkButton from './BookmarkButton';
+import ImageWithFallback from './ImageWithFallback';
 import { useTranslation } from 'react-i18next';
 
 interface Artifact {
@@ -29,30 +30,17 @@ interface ArtifactCardProps {
 
 const ArtifactCard = ({ artifact, viewMode, onClick }: ArtifactCardProps) => {
   const { t } = useTranslation();
-  
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    const target = e.currentTarget;
-    const fallback = target.nextElementSibling as HTMLElement;
-    target.style.display = 'none';
-    if (fallback) {
-      fallback.style.display = 'flex';
-    }
-  };
 
   if (viewMode === 'list') {
     return (
       <Card className="cursor-pointer hover:shadow-lg transition-all duration-200 hover:border-primary/50" onClick={onClick}>
         <div className="flex flex-col md:flex-row">
-          <div className="md:w-48 md:h-32 bg-muted flex items-center justify-center text-muted-foreground">
-            <img 
-              src={artifact.imageUrl} 
+          <div className="md:w-48 md:h-32">
+            <ImageWithFallback
+              src={artifact.imageUrl}
               alt={artifact.title}
-              className="w-full h-full object-cover"
-              onError={handleImageError}
+              className="w-full h-full"
             />
-            <div className="hidden w-full h-full items-center justify-center text-sm">
-              {t('artifact.imageNotAvailable')}
-            </div>
           </div>
           <div className="flex-1 p-6">
             <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
@@ -98,16 +86,12 @@ const ArtifactCard = ({ artifact, viewMode, onClick }: ArtifactCardProps) => {
 
   return (
     <Card className="cursor-pointer hover:shadow-lg transition-all duration-200 hover:border-primary/50 overflow-hidden group" onClick={onClick}>
-      <div className="aspect-square bg-muted flex items-center justify-center text-muted-foreground">
-        <img 
-          src={artifact.imageUrl} 
+      <div className="aspect-square">
+        <ImageWithFallback
+          src={artifact.imageUrl}
           alt={artifact.title}
-          className="w-full h-full object-cover"
-          onError={handleImageError}
+          className="w-full h-full"
         />
-        <div className="hidden w-full h-full items-center justify-center text-sm">
-          {t('artifact.imageNotAvailable')}
-        </div>
       </div>
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between mb-2">

@@ -7,6 +7,7 @@ import RentalButton from './RentalButton';
 import BookmarkButton from './BookmarkButton';
 import Breadcrumbs from './Breadcrumbs';
 import LanguageSwitcher from './LanguageSwitcher';
+import ImageWithFallback from './ImageWithFallback';
 import { useTranslation } from 'react-i18next';
 
 interface Artifact {
@@ -37,15 +38,6 @@ interface ArtifactDetailProps {
 const ArtifactDetail = ({ artifact, onBack }: ArtifactDetailProps) => {
   const { t } = useTranslation();
   
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    const target = e.currentTarget;
-    const fallback = target.nextElementSibling as HTMLElement;
-    target.style.display = 'none';
-    if (fallback) {
-      fallback.style.display = 'flex';
-    }
-  };
-
   const breadcrumbItems = [
     { label: t('breadcrumbs.catalog'), onClick: onBack },
     { label: artifact.title, active: true }
@@ -82,16 +74,13 @@ const ArtifactDetail = ({ artifact, onBack }: ArtifactDetailProps) => {
           <div className="space-y-4">
             <Card>
               <CardContent className="p-0">
-                <div className="aspect-square bg-muted flex items-center justify-center text-muted-foreground">
-                  <img 
-                    src={artifact.imageUrl} 
+                <div className="aspect-square">
+                  <ImageWithFallback
+                    src={artifact.imageUrl}
                     alt={artifact.title}
-                    className="w-full h-full object-cover rounded-lg"
-                    onError={handleImageError}
+                    className="w-full h-full rounded-lg"
+                    fallbackText={t('artifact.highResAvailable')}
                   />
-                  <div className="hidden w-full h-full items-center justify-center text-lg">
-                    {t('artifact.highResAvailable')}
-                  </div>
                 </div>
               </CardContent>
             </Card>

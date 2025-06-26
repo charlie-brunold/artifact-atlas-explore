@@ -21,11 +21,11 @@ export interface Artifact {
   bibliography: string[];
 }
 
-// Base artifact data with static information
+// Base artifact data with static information and appropriate placeholder images
 export const baseArtifacts = [
   {
     id: 1,
-    imageUrl: "/img/artifacts/paracas_textile.jpg",
+    imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=800&fit=crop&crop=center", // Ancient textile/fabric
     accessionNumber: "AM-TX-001",
     dateAcquired: "1958-03-15",
     exhibitions: ["Paracas: Ancient Textiles of Peru, 1992", "Colors of the Andes, 2005"],
@@ -33,7 +33,7 @@ export const baseArtifacts = [
   },
   {
     id: 2,
-    imageUrl: "/img/artifacts/huari_vessel.jpg",
+    imageUrl: "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=800&h=800&fit=crop&crop=center", // Ancient pottery/vessel
     accessionNumber: "MNA-CR-002",
     dateAcquired: "1965-11-22",
     exhibitions: ["Huari: Empire of the Andes, 2008", "Art and Cosmos in the Ancient Andes, 2015"],
@@ -41,7 +41,7 @@ export const baseArtifacts = [
   },
   {
     id: 3,
-    imageUrl: "/img/artifacts/chimu_headdress.jpg",
+    imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=800&fit=crop&crop=center", // Gold ornament/headdress
     accessionNumber: "MDOP-OR-003",
     dateAcquired: "1972-06-01",
     exhibitions: ["Splendors of the Chimú Empire, 1995", "Gold of the Andes, 2007"],
@@ -49,7 +49,7 @@ export const baseArtifacts = [
   },
   {
     id: 4,
-    imageUrl: "/img/artifacts/inca_kero.jpg",
+    imageUrl: "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=800&h=800&fit=crop&crop=center", // Wooden ceremonial cup
     accessionNumber: "MI-KE-004",
     dateAcquired: "1980-09-10",
     exhibitions: ["Inca: Lords of Gold and Glory, 2000", "The Power of the Incas, 2010"],
@@ -57,7 +57,7 @@ export const baseArtifacts = [
   },
   {
     id: 5,
-    imageUrl: "/img/artifacts/nazca_textile.jpg",
+    imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=800&fit=crop&crop=center", // Ancient textile
     accessionNumber: "MAA-TX-005",
     dateAcquired: "1988-04-01",
     exhibitions: ["Nazca: Decoding the Desert, 2003", "Weaving the World: Textile Art of Ancient Peru, 2012"],
@@ -65,13 +65,16 @@ export const baseArtifacts = [
   },
   {
     id: 6,
-    imageUrl: "/img/artifacts/chancay_doll.jpg",
+    imageUrl: "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=800&h=800&fit=crop&crop=center", // Ancient doll/figure
     accessionNumber: "MTP-TX-006",
     dateAcquired: "1990-07-15",
     exhibitions: ["Chancay: Textiles and Pottery, 2005", "Daily Life in Ancient Peru, 2014"],
     bibliography: ["d'Harcourt, R. Textiles of Ancient Peru and Their Techniques. University of Washington Press, 1962.", "Frame, M. Andean Four-Cornered Hats: Ancient Symbols. Thames & Hudson, 2005."]
   }
 ];
+
+// Fallback image for when artifacts images fail to load
+export const FALLBACK_ARTIFACT_IMAGE = "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=800&h=800&fit=crop&crop=center";
 
 export const useTranslatedArtifacts = (): Artifact[] => {
   const { t } = useTranslation();
