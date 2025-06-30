@@ -1,17 +1,14 @@
+
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Search, Grid, List, ArrowUpDown } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import Header from '@/components/Header';
-import ArtifactCard from '@/components/ArtifactCard';
 import ArtifactDetail from '@/components/ArtifactDetail';
-import AdvancedFilters from '@/components/AdvancedFilters';
 import CartSummary from '@/components/CartSummary';
 import CartPage from '@/components/CartPage';
+import SearchBar from '@/components/SearchBar';
+import CatalogControls from '@/components/CatalogControls';
+import ArtifactGrid from '@/components/ArtifactGrid';
 import { useTranslatedArtifacts, Artifact } from '@/utils/artifactData';
 
 type SortOption = 'relevance' | 'title-asc' | 'title-desc' | 'period-asc' | 'period-desc' | 'culture-asc' | 'culture-desc';
@@ -132,86 +129,26 @@ const Index = () => {
       <Header />
 
       <main className="container mx-auto px-6 py-8">
-        {/* Search Bar */}
-        <div className="flex flex-col md:flex-row gap-4 mb-6">
-          <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-            <Input
-              placeholder={t('search.placeholder')}
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
-            />
-          </div>
-          <div className="flex gap-2">
-            <AdvancedFilters onFiltersChange={handleFiltersChange} onSaveSearch={handleSaveSearch} />
-          </div>
-        </div>
+        <SearchBar
+          searchTerm={searchTerm}
+          onSearchChange={setSearchTerm}
+          onFiltersChange={handleFiltersChange}
+          onSaveSearch={handleSaveSearch}
+        />
 
-        {/* Controls Row */}
-        <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-6">
-          <div className="flex items-center gap-4">
-            <Select value={sortBy} onValueChange={(value: SortOption) => setSortBy(value)}>
-              <SelectTrigger className="w-48">
-                <ArrowUpDown className="h-4 w-4 mr-2" />
-                <SelectValue placeholder={t('search.sortBy')} />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="relevance">{t('sorting.relevance')}</SelectItem>
-                <SelectItem value="title-asc">{t('sorting.titleAsc')}</SelectItem>
-                <SelectItem value="title-desc">{t('sorting.titleDesc')}</SelectItem>
-                <SelectItem value="period-asc">{t('sorting.periodAsc')}</SelectItem>
-                <SelectItem value="period-desc">{t('sorting.periodDesc')}</SelectItem>
-                <SelectItem value="culture-asc">{t('sorting.cultureAsc')}</SelectItem>
-                <SelectItem value="culture-desc">{t('sorting.cultureDesc')}</SelectItem>
-              </SelectContent>
-            </Select>
+        <CatalogControls
+          sortBy={sortBy}
+          onSortChange={setSortBy}
+          viewMode={viewMode}
+          onViewModeChange={setViewMode}
+          resultsCount={filteredArtifacts.length}
+        />
 
-            <div className="flex gap-1 border rounded-md">
-              <Button
-                variant={viewMode === 'grid' ? 'default' : 'ghost'}
-                size="sm"
-                onClick={() => setViewMode('grid')}
-              >
-                <Grid className="h-4 w-4" />
-                <span className="ml-1 hidden sm:inline">{t('search.grid')}</span>
-              </Button>
-              <Button
-                variant={viewMode === 'list' ? 'default' : 'ghost'}
-                size="sm"
-                onClick={() => setViewMode('list')}
-              >
-                <List className="h-4 w-4" />
-                <span className="ml-1 hidden sm:inline">{t('search.list')}</span>
-              </Button>
-            </div>
-          </div>
-
-          <div className="text-sm text-muted-foreground">
-            {t('search.resultsFound', { count: filteredArtifacts.length })}
-          </div>
-        </div>
-
-        {/* Results Grid/List */}
-        {filteredArtifacts.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-lg text-muted-foreground">{t('search.noResults')}</p>
-          </div>
-        ) : (
-          <div className={viewMode === 'grid' 
-            ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" 
-            : "space-y-4"
-          }>
-            {filteredArtifacts.map((artifact) => (
-              <ArtifactCard
-                key={artifact.id}
-                artifact={artifact}
-                viewMode={viewMode}
-                onClick={() => handleArtifactClick(artifact)}
-              />
-            ))}
-          </div>
-        )}
+        <ArtifactGrid
+          artifacts={filteredArtifacts}
+          viewMode={viewMode}
+          onArtifactClick={handleArtifactClick}
+        />
       </main>
 
       <CartSummary onViewCart={() => setCurrentPage('cart')} />
