@@ -5,6 +5,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCollections } from '@/hooks/useCollections';
+import { useNavigate } from 'react-router-dom';
 
 interface BookmarkButtonProps {
   artifactId: number;
@@ -27,16 +28,35 @@ const BookmarkButton = ({
   const { isInCollection, addToCollection, removeFromCollection, loading } = useCollections();
   const { toast } = useToast();
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const isBookmarked = isInCollection(artifactId);
+
+  const handleAuthRequired = () => {
+    if (onLoginRequired) {
+      onLoginRequired();
+    } else {
+      toast({
+        title: "Iniciar Sesión Requerido",
+        description: "Crea una cuenta para guardar tus artefactos favoritos y gestionar tu colección de investigación.",
+        action: (
+          <Button 
+            size="sm" 
+            onClick={() => navigate('/auth')}
+            className="ml-2"
+          >
+            Crear Cuenta
+          </Button>
+        ),
+      });
+    }
+  };
 
   const toggleBookmark = async (e: React.MouseEvent) => {
     e.stopPropagation();
     
     if (!user) {
-      if (onLoginRequired) {
-        onLoginRequired();
-      }
+      handleAuthRequired();
       return;
     }
 
@@ -57,7 +77,6 @@ const BookmarkButton = ({
         });
       }
     } else {
-      // Create a minimal artifact object if not provided
       const artifactToSave = artifact || {
         id: artifactId,
         title: artifactTitle,
@@ -86,7 +105,7 @@ const BookmarkButton = ({
         onClick={toggleBookmark}
         size={size}
         variant={variant}
-        className="flex items-center gap-2"
+        className="flex items-center gap-2 hover:bg-primary hover:text-primary-foreground transition-colors"
       >
         <LogIn className="h-4 w-4" />
         {size !== 'sm' && 'Iniciar Sesión'}
@@ -100,7 +119,11 @@ const BookmarkButton = ({
       size={size}
       variant={variant}
       disabled={loading}
-      className={`flex items-center gap-2 ${isBookmarked ? 'text-teal-600 border-teal-600' : ''}`}
+      className={`flex items-center gap-2 transition-colors ${
+        isBookmarked 
+          ? 'text-teal-600 border-teal-600 hover:bg-teal-50' 
+          : 'hover:bg-primary hover:text-primary-foreground'
+      }`}
     >
       {isBookmarked ? <BookmarkCheck className="h-4 w-4" /> : <Bookmark className="h-4 w-4" />}
       {size !== 'sm' && (isBookmarked ? t('actions.bookmarked') : t('actions.bookmark'))}

@@ -4,10 +4,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Search, Grid, List, ArrowUpDown, Filter, User } from 'lucide-react';
+import { Search, Grid, List, ArrowUpDown } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import Logo from '@/components/Logo';
-import LanguageSwitcher from '@/components/LanguageSwitcher';
+import Header from '@/components/Header';
 import ArtifactCard from '@/components/ArtifactCard';
 import ArtifactDetail from '@/components/ArtifactDetail';
 import AdvancedFilters from '@/components/AdvancedFilters';
@@ -27,7 +26,7 @@ const Index = () => {
   const [sortBy, setSortBy] = useState<SortOption>('relevance');
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
   const [filters, setFilters] = useState<any>({});
-  const [currentPage, setCurrentPage] = useState<'catalog' | 'cart' | 'my-collection'>('catalog');
+  const [currentPage, setCurrentPage] = useState<'catalog' | 'cart'>('catalog');
 
   const filteredArtifacts = artifacts
     .filter(artifact => {
@@ -130,43 +129,25 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Enhanced Header */}
-      <header className="border-b bg-card shadow-sm">
-        <div className="container mx-auto px-6 py-6">
-          <div className="flex items-center justify-between mb-6">
-            <Logo />
-            <div className="flex items-center gap-4">
-              <LanguageSwitcher />
-              <Button 
-                variant="outline" 
-                onClick={() => setCurrentPage('my-collection')}
-                className="flex items-center gap-2"
-              >
-                <User className="h-4 w-4" />
-                {t('header.myCollection')}
-              </Button>
-            </div>
-          </div>
-          
-          {/* Search Bar */}
-          <div className="flex flex-col md:flex-row gap-4">
-            <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-              <Input
-                placeholder={t('search.placeholder')}
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
-              />
-            </div>
-            <div className="flex gap-2">
-              <AdvancedFilters onFiltersChange={handleFiltersChange} onSaveSearch={handleSaveSearch} />
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       <main className="container mx-auto px-6 py-8">
+        {/* Search Bar */}
+        <div className="flex flex-col md:flex-row gap-4 mb-6">
+          <div className="flex-1 relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+            <Input
+              placeholder={t('search.placeholder')}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-10"
+            />
+          </div>
+          <div className="flex gap-2">
+            <AdvancedFilters onFiltersChange={handleFiltersChange} onSaveSearch={handleSaveSearch} />
+          </div>
+        </div>
+
         {/* Controls Row */}
         <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-6">
           <div className="flex items-center gap-4">

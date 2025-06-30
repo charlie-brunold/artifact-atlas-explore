@@ -6,6 +6,8 @@ import RentalButton from './RentalButton';
 import BookmarkButton from './BookmarkButton';
 import ImageWithFallback from './ImageWithFallback';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/contexts/AuthContext';
+import { useCollections } from '@/hooks/useCollections';
 
 interface Artifact {
   id: number;
@@ -30,17 +32,28 @@ interface ArtifactCardProps {
 
 const ArtifactCard = ({ artifact, viewMode, onClick }: ArtifactCardProps) => {
   const { t } = useTranslation();
+  const { user } = useAuth();
+  const { isInCollection } = useCollections();
+  
+  const isBookmarked = user ? isInCollection(artifact.id) : false;
 
   if (viewMode === 'list') {
     return (
-      <Card className="cursor-pointer hover:shadow-lg transition-all duration-200 hover:border-primary/50" onClick={onClick}>
+      <Card className={`cursor-pointer hover:shadow-lg transition-all duration-200 hover:border-primary/50 ${
+        isBookmarked ? 'ring-2 ring-teal-200 border-teal-300' : ''
+      }`} onClick={onClick}>
         <div className="flex flex-col md:flex-row">
-          <div className="md:w-48 md:h-32">
+          <div className="md:w-48 md:h-32 relative">
             <ImageWithFallback
               src={artifact.imageUrl}
               alt={artifact.title}
               className="w-full h-full"
             />
+            {isBookmarked && (
+              <div className="absolute top-2 right-2 bg-teal-100 text-teal-700 px-2 py-1 rounded-full text-xs font-medium">
+                ★ Guardado
+              </div>
+            )}
           </div>
           <div className="flex-1 p-6">
             <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
@@ -71,7 +84,8 @@ const ArtifactCard = ({ artifact, viewMode, onClick }: ArtifactCardProps) => {
               <div className="flex flex-col gap-2">
                 <BookmarkButton 
                   artifactId={artifact.id} 
-                  artifactTitle={artifact.title} 
+                  artifactTitle={artifact.title}
+                  artifact={artifact}
                   size="sm" 
                   variant="ghost"
                 />
@@ -85,13 +99,20 @@ const ArtifactCard = ({ artifact, viewMode, onClick }: ArtifactCardProps) => {
   }
 
   return (
-    <Card className="cursor-pointer hover:shadow-lg transition-all duration-200 hover:border-primary/50 overflow-hidden group" onClick={onClick}>
-      <div className="aspect-square">
+    <Card className={`cursor-pointer hover:shadow-lg transition-all duration-200 hover:border-primary/50 overflow-hidden group ${
+      isBookmarked ? 'ring-2 ring-teal-200 border-teal-300' : ''
+    }`} onClick={onClick}>
+      <div className="aspect-square relative">
         <ImageWithFallback
           src={artifact.imageUrl}
           alt={artifact.title}
           className="w-full h-full"
         />
+        {isBookmarked && (
+          <div className="absolute top-2 right-2 bg-teal-100 text-teal-700 px-2 py-1 rounded-full text-xs font-medium">
+            ★ Guardado
+          </div>
+        )}
       </div>
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between mb-2">
@@ -101,7 +122,8 @@ const ArtifactCard = ({ artifact, viewMode, onClick }: ArtifactCardProps) => {
           <div className="flex items-center gap-1">
             <BookmarkButton 
               artifactId={artifact.id} 
-              artifactTitle={artifact.title} 
+              artifactTitle={artifact.title}
+              artifact={artifact}
               size="sm" 
               variant="ghost"
             />
