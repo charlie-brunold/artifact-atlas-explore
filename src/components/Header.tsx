@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import UserMenu from './UserMenu';
 import LanguageSwitcher from './LanguageSwitcher';
 import Logo from './Logo';
+import emzingoLogo from '@/assets/emzingo-logo.png';
 
 const Header = () => {
   const { user, loading } = useAuth();
@@ -33,7 +34,17 @@ const Header = () => {
     <header className="border-b bg-card shadow-sm">
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          <Logo />
+          <div className="flex items-center gap-6">
+            <Logo />
+            <div className="hidden md:flex items-center gap-2 text-xs text-muted-foreground">
+              <span>in partnership with</span>
+              <img 
+                src={emzingoLogo} 
+                alt="Emzingo|U" 
+                className="h-6 object-contain opacity-80 hover:opacity-100 transition-opacity"
+              />
+            </div>
+          </div>
           <div className="flex items-center gap-4">
             <LanguageSwitcher />
             {loading ? (

@@ -15,6 +15,7 @@ import { Loader2, User, Edit, Save, X } from 'lucide-react';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
 import PageHeader from './PageHeader';
+import emzingoLogo from '@/assets/emzingo-logo.png';
 
 interface ProfileFormData {
   full_name: string;
@@ -289,6 +290,18 @@ const ProfilePage = () => {
                 </div>
               </CardContent>
             </Card>
+          </div>
+        </div>
+        
+        {/* Footer with partner logo */}
+        <div className="mt-16 pt-8 border-t border-border/50">
+          <div className="flex items-center justify-center gap-3 text-xs text-muted-foreground">
+            <span>Powered by</span>
+            <img 
+              src={emzingoLogo} 
+              alt="Emzingo|U" 
+              className="h-5 object-contain opacity-70 hover:opacity-100 transition-opacity"
+            />
           </div>
         </div>
       </div>

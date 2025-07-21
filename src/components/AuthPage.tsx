@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AuthCard } from './auth/AuthCard';
 import LanguageSwitcher from './LanguageSwitcher';
+import emzingoLogo from '@/assets/emzingo-logo.png';
 
 interface AuthPageProps {
   onBack?: () => void;
@@ -49,6 +50,18 @@ const AuthPage = ({ onBack }: AuthPageProps) => {
           setError={setError}
           setSuccess={setSuccess}
         />
+        
+        {/* Footer with partner logo */}
+        <div className="mt-8 text-center">
+          <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
+            <span>Powered by</span>
+            <img 
+              src={emzingoLogo} 
+              alt="Emzingo|U" 
+              className="h-4 object-contain opacity-70"
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

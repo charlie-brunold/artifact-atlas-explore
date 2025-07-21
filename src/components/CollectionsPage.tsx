@@ -9,6 +9,7 @@ import { BookMarked, Trash2, ExternalLink, Loader2, Home, ArrowLeft, Calendar, F
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { useNavigate } from 'react-router-dom';
 import LanguageSwitcher from './LanguageSwitcher';
+import emzingoLogo from '@/assets/emzingo-logo.png';
 
 const CollectionsPage = () => {
   const { collections, loading, removeFromCollection } = useCollections();
@@ -247,6 +248,18 @@ const CollectionsPage = () => {
               </div>
             </div>
           )}
+          
+          {/* Footer with partner logo */}
+          <div className="mt-16 pt-8 border-t border-border/50">
+            <div className="flex items-center justify-center gap-3 text-xs text-muted-foreground">
+              <span>Powered by</span>
+              <img 
+                src={emzingoLogo} 
+                alt="Emzingo|U" 
+                className="h-5 object-contain opacity-70 hover:opacity-100 transition-opacity"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
