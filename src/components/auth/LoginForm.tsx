@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Loader2 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/contexts/AuthContext';
 
 interface LoginFormProps {
@@ -14,6 +15,7 @@ interface LoginFormProps {
 
 export const LoginForm = ({ onError, loading, setLoading }: LoginFormProps) => {
   const { signIn } = useAuth();
+  const { t } = useTranslation();
   const [loginForm, setLoginForm] = useState({
     email: '',
     password: ''
@@ -36,7 +38,7 @@ export const LoginForm = ({ onError, loading, setLoading }: LoginFormProps) => {
   return (
     <form onSubmit={handleLogin} className="space-y-4">
       <div>
-        <Label htmlFor="login-email">Email</Label>
+        <Label htmlFor="login-email">{t('auth.email')}</Label>
         <Input
           id="login-email"
           type="email"
@@ -46,7 +48,7 @@ export const LoginForm = ({ onError, loading, setLoading }: LoginFormProps) => {
         />
       </div>
       <div>
-        <Label htmlFor="login-password">Contraseña</Label>
+        <Label htmlFor="login-password">{t('auth.password')}</Label>
         <Input
           id="login-password"
           type="password"
@@ -57,7 +59,7 @@ export const LoginForm = ({ onError, loading, setLoading }: LoginFormProps) => {
       </div>
       <Button type="submit" className="w-full" disabled={loading}>
         {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-        Iniciar Sesión
+        {t('auth.signIn')}
       </Button>
     </form>
   );

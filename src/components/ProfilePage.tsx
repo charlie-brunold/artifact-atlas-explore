@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,9 +6,11 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/contexts/AuthContext';
 import { useProfile } from '@/hooks/useProfile';
+import { useTranslation } from 'react-i18next';
 import { Loader2, User, Edit, Save, X } from 'lucide-react';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
+import LanguageSwitcher from './LanguageSwitcher';
 
 interface ProfileFormData {
   full_name: string;
@@ -20,6 +21,7 @@ interface ProfileFormData {
 const ProfilePage = () => {
   const { user } = useAuth();
   const { profile, loading, updateProfile } = useProfile();
+  const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
   const [updating, setUpdating] = useState(false);
   const { toast } = useToast();
@@ -48,14 +50,14 @@ const ProfilePage = () => {
     
     if (error) {
       toast({
-        title: "Error",
-        description: "No se pudo actualizar el perfil",
+        title: t('common.error'),
+        description: t('profile.updateError'),
         variant: "destructive"
       });
     } else {
       toast({
-        title: "Perfil actualizado",
-        description: "Tu información de perfil ha sido actualizada exitosamente",
+        title: t('profile.updated'),
+        description: t('profile.updateSuccess'),
       });
       setIsEditing(false);
     }
@@ -84,12 +86,15 @@ const ProfilePage = () => {
   return (
     <div className="container mx-auto px-6 py-8">
       <div className="max-w-2xl mx-auto">
-        <div className="flex items-center gap-3 mb-6">
-          <User className="h-8 w-8 text-primary" />
-          <div>
-            <h1 className="text-3xl font-bold">Mi Perfil</h1>
-            <p className="text-muted-foreground">Gestiona tu información personal y preferencias</p>
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-3">
+            <User className="h-8 w-8 text-primary" />
+            <div>
+              <h1 className="text-3xl font-bold">{t('profile.title')}</h1>
+              <p className="text-muted-foreground">{t('profile.description')}</p>
+            </div>
           </div>
+          <LanguageSwitcher />
         </div>
 
         <div className="space-y-6">
@@ -98,9 +103,9 @@ const ProfilePage = () => {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div>
-                  <CardTitle>Información Personal</CardTitle>
+                  <CardTitle>{t('profile.personalInfo')}</CardTitle>
                   <CardDescription>
-                    Tu información de contacto y detalles profesionales
+                    {t('profile.personalInfoDesc')}
                   </CardDescription>
                 </div>
                 {!isEditing && (
@@ -110,7 +115,7 @@ const ProfilePage = () => {
                     onClick={() => setIsEditing(true)}
                   >
                     <Edit className="h-4 w-4 mr-2" />
-                    Editar
+                    {t('profile.edit')}
                   </Button>
                 )}
               </div>
@@ -121,27 +126,27 @@ const ProfilePage = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <Label className="text-sm font-medium text-muted-foreground">
-                        Email
+                        {t('auth.email')}
                       </Label>
                       <p className="text-sm">{user?.email}</p>
                     </div>
                     <div>
                       <Label className="text-sm font-medium text-muted-foreground">
-                        Nombre Completo
+                        {t('auth.fullName')}
                       </Label>
-                      <p className="text-sm">{profile?.full_name || 'No especificado'}</p>
+                      <p className="text-sm">{profile?.full_name || t('profile.notSpecified')}</p>
                     </div>
                     <div>
                       <Label className="text-sm font-medium text-muted-foreground">
-                        Institución
+                        {t('auth.institution')}
                       </Label>
-                      <p className="text-sm">{profile?.institution || 'No especificado'}</p>
+                      <p className="text-sm">{profile?.institution || t('profile.notSpecified')}</p>
                     </div>
                     <div>
                       <Label className="text-sm font-medium text-muted-foreground">
-                        Credenciales de Investigación
+                        {t('profile.researchCredentials')}
                       </Label>
-                      <p className="text-sm">{profile?.research_credentials || 'No especificado'}</p>
+                      <p className="text-sm">{profile?.research_credentials || t('profile.notSpecified')}</p>
                     </div>
                   </div>
                 </div>
@@ -151,11 +156,11 @@ const ProfilePage = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <Label className="text-sm font-medium text-muted-foreground">
-                          Email
+                          {t('auth.email')}
                         </Label>
                         <p className="text-sm text-muted-foreground">{user?.email}</p>
                         <p className="text-xs text-muted-foreground">
-                          Para cambiar tu email, contacta soporte
+                          {t('profile.emailChangeNote')}
                         </p>
                       </div>
                       <FormField
@@ -163,9 +168,9 @@ const ProfilePage = () => {
                         name="full_name"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Nombre Completo</FormLabel>
+                            <FormLabel>{t('auth.fullName')}</FormLabel>
                             <FormControl>
-                              <Input placeholder="Tu nombre completo" {...field} />
+                              <Input placeholder={t('profile.fullNamePlaceholder')} {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -176,9 +181,9 @@ const ProfilePage = () => {
                         name="institution"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Institución</FormLabel>
+                            <FormLabel>{t('auth.institution')}</FormLabel>
                             <FormControl>
-                              <Input placeholder="Universidad, museo, etc." {...field} />
+                              <Input placeholder={t('profile.institutionPlaceholder')} {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -189,9 +194,9 @@ const ProfilePage = () => {
                         name="research_credentials"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Credenciales de Investigación</FormLabel>
+                            <FormLabel>{t('profile.researchCredentials')}</FormLabel>
                             <FormControl>
-                              <Input placeholder="PhD, MSc, etc." {...field} />
+                              <Input placeholder={t('profile.credentialsPlaceholder')} {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -203,18 +208,18 @@ const ProfilePage = () => {
                         {updating ? (
                           <>
                             <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                            Guardando...
+                            {t('profile.saving')}
                           </>
                         ) : (
                           <>
                             <Save className="h-4 w-4 mr-2" />
-                            Guardar Cambios
+                            {t('profile.saveChanges')}
                           </>
                         )}
                       </Button>
                       <Button type="button" variant="outline" onClick={handleCancel}>
                         <X className="h-4 w-4 mr-2" />
-                        Cancelar
+                        {t('common.cancel')}
                       </Button>
                     </div>
                   </form>
@@ -226,24 +231,24 @@ const ProfilePage = () => {
           {/* Account Statistics */}
           <Card>
             <CardHeader>
-              <CardTitle>Estadísticas de la Cuenta</CardTitle>
+              <CardTitle>{t('profile.accountStats')}</CardTitle>
               <CardDescription>
-                Resumen de tu actividad en el catálogo
+                {t('profile.accountStatsDesc')}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="text-center p-4 bg-muted/50 rounded-lg">
                   <p className="text-2xl font-bold text-primary">0</p>
-                  <p className="text-sm text-muted-foreground">Artefactos Guardados</p>
+                  <p className="text-sm text-muted-foreground">{t('profile.savedArtifacts')}</p>
                 </div>
                 <div className="text-center p-4 bg-muted/50 rounded-lg">
                   <p className="text-2xl font-bold text-primary">0</p>
-                  <p className="text-sm text-muted-foreground">Búsquedas Realizadas</p>
+                  <p className="text-sm text-muted-foreground">{t('profile.searchesPerformed')}</p>
                 </div>
                 <div className="text-center p-4 bg-muted/50 rounded-lg">
                   <p className="text-2xl font-bold text-primary">0</p>
-                  <p className="text-sm text-muted-foreground">Solicitudes de Alquiler</p>
+                  <p className="text-sm text-muted-foreground">{t('profile.rentalRequests')}</p>
                 </div>
               </div>
             </CardContent>

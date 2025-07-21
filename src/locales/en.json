@@ -6,7 +6,19 @@
     "myCollection": "My Collection"
   },
   "auth": {
-    "login": "Login"
+    "login": "Login",
+    "backToCatalog": "Back to Catalog",
+    "title": "Museo AMANO",
+    "description": "Access your researcher account to manage your collections and requests",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "email": "Email",
+    "password": "Password",
+    "fullName": "Full Name",
+    "institution": "Institution",
+    "confirmPassword": "Confirm Password",
+    "passwordsDoNotMatch": "Passwords do not match",
+    "confirmationEmailSent": "A confirmation email has been sent. Please check your inbox."
   },
   "search": {
     "placeholder": "Search artifacts, cultures, periods...",

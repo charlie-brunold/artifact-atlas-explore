@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Loader2 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/contexts/AuthContext';
 
 interface SignupFormProps {
@@ -15,6 +16,7 @@ interface SignupFormProps {
 
 export const SignupForm = ({ onError, onSuccess, loading, setLoading }: SignupFormProps) => {
   const { signUp } = useAuth();
+  const { t } = useTranslation();
   const [signupForm, setSignupForm] = useState({
     email: '',
     password: '',
@@ -30,7 +32,7 @@ export const SignupForm = ({ onError, onSuccess, loading, setLoading }: SignupFo
     onSuccess('');
 
     if (signupForm.password !== signupForm.confirmPassword) {
-      onError('Las contraseñas no coinciden');
+      onError(t('auth.passwordsDoNotMatch'));
       setLoading(false);
       return;
     }
@@ -47,7 +49,7 @@ export const SignupForm = ({ onError, onSuccess, loading, setLoading }: SignupFo
     if (error) {
       onError(error.message);
     } else {
-      onSuccess('Se ha enviado un correo de confirmación. Por favor, revisa tu bandeja de entrada.');
+      onSuccess(t('auth.confirmationEmailSent'));
     }
     
     setLoading(false);
@@ -56,7 +58,7 @@ export const SignupForm = ({ onError, onSuccess, loading, setLoading }: SignupFo
   return (
     <form onSubmit={handleSignup} className="space-y-4">
       <div>
-        <Label htmlFor="signup-name">Nombre Completo</Label>
+        <Label htmlFor="signup-name">{t('auth.fullName')}</Label>
         <Input
           id="signup-name"
           value={signupForm.fullName}
@@ -65,7 +67,7 @@ export const SignupForm = ({ onError, onSuccess, loading, setLoading }: SignupFo
         />
       </div>
       <div>
-        <Label htmlFor="signup-institution">Institución</Label>
+        <Label htmlFor="signup-institution">{t('auth.institution')}</Label>
         <Input
           id="signup-institution"
           value={signupForm.institution}
@@ -73,7 +75,7 @@ export const SignupForm = ({ onError, onSuccess, loading, setLoading }: SignupFo
         />
       </div>
       <div>
-        <Label htmlFor="signup-email">Email</Label>
+        <Label htmlFor="signup-email">{t('auth.email')}</Label>
         <Input
           id="signup-email"
           type="email"
@@ -83,7 +85,7 @@ export const SignupForm = ({ onError, onSuccess, loading, setLoading }: SignupFo
         />
       </div>
       <div>
-        <Label htmlFor="signup-password">Contraseña</Label>
+        <Label htmlFor="signup-password">{t('auth.password')}</Label>
         <Input
           id="signup-password"
           type="password"
@@ -93,7 +95,7 @@ export const SignupForm = ({ onError, onSuccess, loading, setLoading }: SignupFo
         />
       </div>
       <div>
-        <Label htmlFor="signup-confirm">Confirmar Contraseña</Label>
+        <Label htmlFor="signup-confirm">{t('auth.confirmPassword')}</Label>
         <Input
           id="signup-confirm"
           type="password"
@@ -104,7 +106,7 @@ export const SignupForm = ({ onError, onSuccess, loading, setLoading }: SignupFo
       </div>
       <Button type="submit" className="w-full" disabled={loading}>
         {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-        Registrarse
+        {t('auth.signUp')}
       </Button>
     </form>
   );

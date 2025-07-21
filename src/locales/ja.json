@@ -6,7 +6,19 @@
     "myCollection": "マイコレクション"
   },
   "auth": {
-    "login": "ログイン"
+    "login": "ログイン",
+    "backToCatalog": "カタログに戻る",
+    "title": "アマノ博物館",
+    "description": "研究者アカウントにアクセスして、コレクションとリクエストを管理してください",
+    "signIn": "サインイン",
+    "signUp": "サインアップ",
+    "email": "メール",
+    "password": "パスワード",
+    "fullName": "フルネーム",
+    "institution": "機関",
+    "confirmPassword": "パスワード確認",
+    "passwordsDoNotMatch": "パスワードが一致しません",
+    "confirmationEmailSent": "確認メールが送信されました。受信トレイをご確認ください。"
   },
   "search": {
     "placeholder": "遺物、文化、時代を検索...",

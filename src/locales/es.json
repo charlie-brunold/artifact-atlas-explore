@@ -6,7 +6,19 @@
     "myCollection": "Mi Colección"
   },
   "auth": {
-    "login": "Iniciar Sesión"
+    "login": "Iniciar Sesión",
+    "backToCatalog": "Volver al Catálogo",
+    "title": "Museo AMANO",
+    "description": "Accede a tu cuenta de investigador para gestionar tus colecciones y solicitudes",
+    "signIn": "Iniciar Sesión",
+    "signUp": "Registrarse",
+    "email": "Email",
+    "password": "Contraseña",
+    "fullName": "Nombre Completo",
+    "institution": "Institución",
+    "confirmPassword": "Confirmar Contraseña",
+    "passwordsDoNotMatch": "Las contraseñas no coinciden",
+    "confirmationEmailSent": "Se ha enviado un correo de confirmación. Por favor, revisa tu bandeja de entrada."
   },
   "search": {
     "placeholder": "Buscar artefactos, culturas, períodos...",

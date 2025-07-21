@@ -2,6 +2,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { useTranslation } from 'react-i18next';
 import { LoginForm } from './LoginForm';
 import { SignupForm } from './SignupForm';
 
@@ -22,19 +23,21 @@ export const AuthCard = ({
   setError, 
   setSuccess 
 }: AuthCardProps) => {
+  const { t } = useTranslation();
+  
   return (
     <Card>
       <CardHeader className="text-center">
-        <CardTitle className="text-2xl">Museo AMANO</CardTitle>
+        <CardTitle className="text-2xl">{t('auth.title')}</CardTitle>
         <CardDescription>
-          Accede a tu cuenta de investigador para gestionar tus colecciones y solicitudes
+          {t('auth.description')}
         </CardDescription>
       </CardHeader>
       <CardContent>
         <Tabs defaultValue="login" className="w-full">
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="login">Iniciar Sesión</TabsTrigger>
-            <TabsTrigger value="signup">Registrarse</TabsTrigger>
+            <TabsTrigger value="login">{t('auth.signIn')}</TabsTrigger>
+            <TabsTrigger value="signup">{t('auth.signUp')}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="login">
