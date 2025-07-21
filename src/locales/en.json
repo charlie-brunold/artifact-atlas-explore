@@ -5,6 +5,9 @@
     "subtitle": "Museo AMANO Digital Research",
     "myCollection": "My Collection"
   },
+  "auth": {
+    "login": "Login"
+  },
   "search": {
     "placeholder": "Search artifacts, cultures, periods...",
     "advancedFilters": "Advanced Filters",

@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { LogIn } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import UserMenu from './UserMenu';
 import LanguageSwitcher from './LanguageSwitcher';
 import Logo from './Logo';
@@ -10,6 +11,7 @@ import Logo from './Logo';
 const Header = () => {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleLogin = () => {
     navigate('/auth');
@@ -45,7 +47,7 @@ const Header = () => {
             ) : (
               <Button onClick={handleLogin} variant="outline" className="flex items-center gap-2">
                 <LogIn className="h-4 w-4" />
-                Iniciar Sesión
+                {t('auth.login')}
               </Button>
             )}
           </div>

@@ -5,6 +5,9 @@
     "subtitle": "アマノ博物館デジタル研究",
     "myCollection": "マイコレクション"
   },
+  "auth": {
+    "login": "ログイン"
+  },
   "search": {
     "placeholder": "遺物、文化、時代を検索...",
     "advancedFilters": "詳細フィルター",

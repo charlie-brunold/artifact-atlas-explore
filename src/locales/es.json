@@ -5,6 +5,9 @@
     "subtitle": "Museo AMANO Investigación Digital",
     "myCollection": "Mi Colección"
   },
+  "auth": {
+    "login": "Iniciar Sesión"
+  },
   "search": {
     "placeholder": "Buscar artefactos, culturas, períodos...",
     "advancedFilters": "Filtros Avanzados",

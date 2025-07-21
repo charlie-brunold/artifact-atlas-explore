@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { useMemo } from 'react';
 
 export interface Artifact {
   id: number;
@@ -76,20 +77,22 @@ export const baseArtifacts = [
 export const FALLBACK_ARTIFACT_IMAGE = "/lovable-uploads/4f52670a-8583-45fc-834b-3e531079dfc6.png";
 
 export const useTranslatedArtifacts = (): Artifact[] => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
-  return baseArtifacts.map(artifact => ({
-    ...artifact,
-    title: t(`artifacts.${artifact.id}.title`),
-    category: t(`artifacts.${artifact.id}.category`),
-    period: t(`artifacts.${artifact.id}.period`),
-    culture: t(`artifacts.${artifact.id}.culture`),
-    material: t(`artifacts.${artifact.id}.material`),
-    dimensions: t(`artifacts.${artifact.id}.dimensions`),
-    location: t(`artifacts.${artifact.id}.location`),
-    description: t(`artifacts.${artifact.id}.description`),
-    provenance: t(`artifacts.${artifact.id}.provenance`),
-    significance: t(`artifacts.${artifact.id}.significance`),
-    condition: t(`artifacts.${artifact.id}.condition`)
-  }));
+  return useMemo(() => {
+    return baseArtifacts.map(artifact => ({
+      ...artifact,
+      title: t(`artifacts.${artifact.id}.title`),
+      category: t(`artifacts.${artifact.id}.category`),
+      period: t(`artifacts.${artifact.id}.period`),
+      culture: t(`artifacts.${artifact.id}.culture`),
+      material: t(`artifacts.${artifact.id}.material`),
+      dimensions: t(`artifacts.${artifact.id}.dimensions`),
+      location: t(`artifacts.${artifact.id}.location`),
+      description: t(`artifacts.${artifact.id}.description`),
+      provenance: t(`artifacts.${artifact.id}.provenance`),
+      significance: t(`artifacts.${artifact.id}.significance`),
+      condition: t(`artifacts.${artifact.id}.condition`)
+    }));
+  }, [t, i18n.language]);
 };
