@@ -1,12 +1,21 @@
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 const Logo = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate('/');
+  };
 
   return (
-    <div className="flex items-center gap-3">
+    <div 
+      className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity" 
+      onClick={handleClick}
+    >
       <div className="relative">
         {/* Abstract textile pattern logo */}
         <div className="w-10 h-10 bg-gradient-to-br from-primary via-teal-600 to-primary rounded-lg flex items-center justify-center shadow-sm">
