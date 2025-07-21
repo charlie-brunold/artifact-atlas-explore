@@ -46,7 +46,10 @@
     "accountStatsDesc": "研究活動の概要",
     "savedArtifacts": "保存された遺物",
     "searchesPerformed": "実行された検索",
-    "rentalRequests": "レンタルリクエスト"
+    "rentalRequests": "レンタルリクエスト",
+    "recentActivity": "最近のアクティビティ",
+    "results": "件の結果",
+    "noRecentActivity": "最近のアクティビティはありません"
   },
   "search": {
     "placeholder": "遺物、文化、時代を検索...",

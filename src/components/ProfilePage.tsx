@@ -7,6 +7,9 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/contexts/AuthContext';
 import { useProfile } from '@/hooks/useProfile';
+import { useCollections } from '@/hooks/useCollections';
+import { useSearchHistory } from '@/hooks/useSearchHistory';
+import { useUserPreferences } from '@/hooks/useUserPreferences';
 import { useTranslation } from 'react-i18next';
 import { Loader2, User, Edit, Save, X } from 'lucide-react';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -22,6 +25,9 @@ interface ProfileFormData {
 const ProfilePage = () => {
   const { user } = useAuth();
   const { profile, loading, updateProfile } = useProfile();
+  const { collections, loading: collectionsLoading } = useCollections();
+  const { searchHistory, loading: historyLoading } = useSearchHistory();
+  const { preferences, loading: preferencesLoading } = useUserPreferences();
   const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
   const [updating, setUpdating] = useState(false);
@@ -74,7 +80,14 @@ const ProfilePage = () => {
     setIsEditing(false);
   };
 
-  if (loading) {
+  // Calculate real statistics
+  const totalBookmarks = collections.length;
+  const totalSearches = searchHistory.length;
+  const recentSearches = searchHistory.slice(0, 5);
+  const researchAreas = preferences?.research_areas || [];
+  const memberSince = profile?.created_at ? new Date(profile.created_at).getFullYear() : new Date().getFullYear();
+
+  if (loading || collectionsLoading || historyLoading || preferencesLoading) {
     return (
       <>
         <PageHeader 
@@ -241,16 +254,37 @@ const ProfilePage = () => {
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="text-center p-4 bg-muted/50 rounded-lg">
-                    <p className="text-2xl font-bold text-primary">0</p>
+                    <p className="text-2xl font-bold text-primary">{totalBookmarks}</p>
                     <p className="text-sm text-muted-foreground">{t('profile.savedArtifacts')}</p>
                   </div>
                   <div className="text-center p-4 bg-muted/50 rounded-lg">
-                    <p className="text-2xl font-bold text-primary">0</p>
+                    <p className="text-2xl font-bold text-primary">{totalSearches}</p>
                     <p className="text-sm text-muted-foreground">{t('profile.searchesPerformed')}</p>
                   </div>
                   <div className="text-center p-4 bg-muted/50 rounded-lg">
                     <p className="text-2xl font-bold text-primary">0</p>
                     <p className="text-sm text-muted-foreground">{t('profile.rentalRequests')}</p>
+                  </div>
+                </div>
+
+                {/* Recent Activity */}
+                <div className="mt-6 space-y-4">
+                  <h3 className="text-lg font-semibold">{t('profile.recentActivity')}</h3>
+                  <div className="space-y-2">
+                    {recentSearches.length > 0 ? (
+                      recentSearches.map((search) => (
+                        <div key={search.id} className="text-sm p-3 bg-muted/30 rounded-lg">
+                          <div className="font-medium">"{search.search_query}"</div>
+                          <div className="text-xs text-muted-foreground mt-1">
+                            {new Date(search.created_at).toLocaleDateString()} • {search.results_count} {t('profile.results')}
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="text-sm text-muted-foreground p-3 bg-muted/30 rounded-lg">
+                        {t('profile.noRecentActivity')}
+                      </div>
+                    )}
                   </div>
                 </div>
               </CardContent>

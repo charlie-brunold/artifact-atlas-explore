@@ -191,6 +191,96 @@ export type Database = {
         }
         Relationships: []
       }
+      user_preferences: {
+        Row: {
+          created_at: string
+          default_language: string | null
+          email_notifications: boolean | null
+          id: string
+          preferred_view_mode: string | null
+          research_areas: string[] | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          default_language?: string | null
+          email_notifications?: boolean | null
+          id?: string
+          preferred_view_mode?: string | null
+          research_areas?: string[] | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          default_language?: string | null
+          email_notifications?: boolean | null
+          id?: string
+          preferred_view_mode?: string | null
+          research_areas?: string[] | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_saved_searches: {
+        Row: {
+          created_at: string
+          id: string
+          search_filters: Json | null
+          search_name: string
+          search_query: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          search_filters?: Json | null
+          search_name: string
+          search_query: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          search_filters?: Json | null
+          search_name?: string
+          search_query?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_search_history: {
+        Row: {
+          created_at: string
+          id: string
+          results_count: number | null
+          search_filters: Json | null
+          search_query: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          results_count?: number | null
+          search_filters?: Json | null
+          search_query: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          results_count?: number | null
+          search_filters?: Json | null
+          search_query?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

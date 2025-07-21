@@ -46,7 +46,10 @@
     "accountStatsDesc": "Overview of your research activity",
     "savedArtifacts": "Saved Artifacts",
     "searchesPerformed": "Searches Performed",
-    "rentalRequests": "Rental Requests"
+    "rentalRequests": "Rental Requests",
+    "recentActivity": "Recent Activity",
+    "results": "results",
+    "noRecentActivity": "No recent activity"
   },
   "search": {
     "placeholder": "Search artifacts, cultures, periods...",

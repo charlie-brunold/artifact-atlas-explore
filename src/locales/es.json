@@ -46,7 +46,10 @@
     "accountStatsDesc": "Resumen de tu actividad de investigación",
     "savedArtifacts": "Artefactos Guardados",
     "searchesPerformed": "Búsquedas Realizadas",
-    "rentalRequests": "Solicitudes de Alquiler"
+    "rentalRequests": "Solicitudes de Alquiler",
+    "recentActivity": "Actividad Reciente",
+    "results": "resultados",
+    "noRecentActivity": "No hay actividad reciente"
   },
   "search": {
     "placeholder": "Buscar artefactos, culturas, períodos...",
