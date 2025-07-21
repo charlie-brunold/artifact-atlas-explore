@@ -12,7 +12,7 @@ import LanguageSwitcher from './LanguageSwitcher';
 const CollectionsPage = () => {
   const { collections, loading, removeFromCollection } = useCollections();
   const { toast } = useToast();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const handleRemoveItem = async (artifactId: number, title: string) => {
@@ -132,7 +132,7 @@ const CollectionsPage = () => {
                         )}
                         
                         <p className="text-xs text-muted-foreground">
-                          {t('collections.savedOn')} {new Date(item.created_at).toLocaleDateString(t('common.locale'), {
+                          {t('collections.savedOn')} {new Date(item.created_at).toLocaleDateString(i18n.language, {
                             year: 'numeric',
                             month: 'long',
                             day: 'numeric'
